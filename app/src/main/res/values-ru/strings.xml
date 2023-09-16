@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">Главная</string>
+    <string name="title_catalog">Каталог</string>
+    <string name="title_cart">Корзина</string>
+    <string name="title_favourites">Избранное</string>
+    <string name="title_profile">Профиль</string>
+    <!--TODO change property values to default-->
+    <string name="profile_name">Арсен</string>
+    <string name="profile_email">ars.nyan2002@gmail.com</string>
+    <string name="button_profile_settings_desc">Настройки профиля</string>
+    <string name="button_notifications_desc">Уведомления</string>
+    <string name="card_label_my_discount">моя скидка</string>
+    <string name="label_for_premium_collections">на PREMIUM коллекцию</string>
+    <string name="label_btn_promos">Промокоды</string>
+    <string name="label_btn_gifts">Подарки</string>
+    <string name="label_btn_rewards">Награды</string>
+    <string name="label_orders">Заказы</string>
+    <string name="lable_refunds">Возвраты</string>
+    <string name="label_reviews_questions">Отзывы и вопросы</string>
+    <string name="label_for_a_review">за отзыв</string>
+    <string name="label_bonuses"> баллов</string>
+    <string name="desc_rate_item">Оцени товар</string>
+    <string name="label_rating_profile_action">Как вам </string>
+    <string name="label_gift_cards">Подарочные сертификаты</string>
+    <string name="label_currency"> ₽</string>
+    <string name="label_settings">Настройки</string>
+    <string name="label_product_subscriptions">Подписки на товары</string>
+    <string name="label_country">Страна</string>
+    <string name="label_check_for_updates">Проверить обновление</string>
+</resources>

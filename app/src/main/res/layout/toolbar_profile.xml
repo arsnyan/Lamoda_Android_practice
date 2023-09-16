@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_profile"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:contentInsetStart="@dimen/dimen_default_margin_half_step"
+    app:contentInsetEnd="@dimen/dimen_default_margin_half_step">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/profile_picture_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/button_profile_settings_desc"
+            app:icon="@drawable/outline_home_24"
+            app:iconTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_name_textview"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
+            android:text="@string/profile_name"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture_button"
+            app:layout_constraintTop_toTopOf="@+id/profile_picture_button" />
+
+        <TextView
+            android:id="@+id/user_email_textview"
+            style="@style/TextAppearance.Material3.ActionBar.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
+            android:text="@string/profile_email"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_picture_button"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/notifications_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/button_notifications_desc"
+            app:icon="@drawable/baseline_notifications_none_24"
+            app:iconTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.appbar.MaterialToolbar>

@@ -1,0 +1,30 @@
+<resources>
+    <string name="application_name">Lamoda Copy</string>
+    <string name="title_catalog">Catalog</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_favourites">Favourites</string>
+    <string name="title_profile">Profile</string>
+    <string name="profile_name">First Name</string>
+    <string name="profile_email">Email</string>
+    <string name="button_profile_settings_desc">Profile settings</string>
+    <string name="button_notifications_desc">Notifications</string>
+    <string name="card_label_my_discount">my discount</string>
+    <string name="label_for_premium_collections">for PREMIUM collections</string>
+    <string name="title_home">Home</string>
+    <string name="label_btn_promos">Promos</string>
+    <string name="label_btn_gifts">Gifts</string>
+    <string name="label_btn_rewards">Rewards</string>
+    <string name="label_orders">Orders</string>
+    <string name="lable_refunds">Refunds</string>
+    <string name="label_reviews_questions">Reviews and questions</string>
+    <string name="label_for_a_review">for a review</string>
+    <string name="label_bonuses"> bonuses</string>
+    <string name="desc_rate_item">Rate item</string>
+    <string name="label_rating_profile_action">How\'d you like </string>
+    <string name="label_gift_cards">Gift cards</string>
+    <string name="label_currency">$</string>
+    <string name="label_product_subscriptions">Product subscriptions</string>
+    <string name="label_country">Country</string>
+    <string name="label_settings">Settings</string>
+    <string name="label_check_for_updates">Check for updates</string>
+</resources>
