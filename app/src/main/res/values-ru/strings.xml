@@ -16,7 +16,7 @@
     <string name="label_btn_gifts">Подарки</string>
     <string name="label_btn_rewards">Награды</string>
     <string name="label_orders">Заказы</string>
-    <string name="lable_refunds">Возвраты</string>
+    <string name="label_returns">Возвраты</string>
     <string name="label_reviews_questions">Отзывы и вопросы</string>
     <string name="label_for_a_review">за отзыв</string>
     <string name="label_bonuses"> баллов</string>
@@ -27,5 +27,10 @@
     <string name="label_settings">Настройки</string>
     <string name="label_product_subscriptions">Подписки на товары</string>
     <string name="label_country">Страна</string>
-    <string name="label_check_for_updates">Проверить обновление</string>
+    <string name="label_check_for_updates"><u>Проверить обновление</u></string>
+    <string name="label_support">Поддержка</string>
+    <string name="label_support_centre">Центр поддержки</string>
+    <string name="label_delivery_and_fitting">Доставка и примерка</string>
+    <string name="label_how_to_return_items">Как сделать возврат</string>
+    <string name="label_ask_a_question">Задать вопрос</string>
 </resources>

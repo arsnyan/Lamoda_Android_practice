@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,6 +19,7 @@
             android:layout_margin="@dimen/dimen_default_margin_step"
             android:importantForAccessibility="no"
             android:src="@drawable/outline_shopping_cart_24"
+            app:tint="?attr/colorOnPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,15 +41,17 @@
             android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
             android:background="@drawable/round_background"
             android:text="6/1"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/imageView" />
+
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_default_margin_step"
-            app:layout_constraintTop_toBottomOf="@id/imageView"/>
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
 
         <ImageView
             android:id="@+id/preview"
@@ -93,12 +98,14 @@
 
         <RatingBar
             android:id="@+id/ratingBar"
+            android:theme="@style/rating_bar"
             style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/desc_rate_item"
             android:isIndicator="false"
             app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

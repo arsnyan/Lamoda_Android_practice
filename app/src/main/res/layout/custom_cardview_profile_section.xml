@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +20,8 @@
                 android:id="@+id/profile_cardview_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/outline_home_24"/>
+                android:src="@drawable/outline_home_24"
+                app:tint="?attr/colorOnPrimary"/>
 
             <View
                 android:layout_width="0dp"

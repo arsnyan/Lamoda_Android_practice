@@ -6,43 +6,42 @@
     android:layout_height="?attr/actionBarSize"
     app:contentInsetStart="@dimen/dimen_default_margin_half_step"
     app:contentInsetEnd="@dimen/dimen_default_margin_half_step"
-    style="@style/Widget.Theme.LamodaCopy.MyView.AccentBackground">
+    style="@style/Widget.Theme.LamodaCopy.AnyView.AccentBackground">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/profile_picture_button"
-            style="@style/Widget.Material3.Button.IconButton"
+            style="@style/Widget.Button.LamodaCopy.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/button_profile_settings_desc"
-            app:icon="@drawable/outline_home_24"
-            app:iconTint="@color/black" />
+            app:icon="@drawable/outline_home_24"/>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_vertical">
             <TextView
                 android:id="@+id/user_name_textview"
-                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
-                android:text="@string/profile_name" />
+                android:text="@string/profile_name"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
             <TextView
                 android:id="@+id/user_email_textview"
-                style="@style/TextAppearance.Material3.ActionBar.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
-                android:text="@string/profile_email"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:text="@string/profile_email"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
+        </LinearLayout>
 
         <View
             android:layout_width="0dp"
@@ -50,12 +49,11 @@
             android:layout_weight="1"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/notifications_button"
-            style="@style/Widget.Material3.Button.IconButton"
+            style="@style/Widget.Button.LamodaCopy.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/button_notifications_desc"
-            app:icon="@drawable/baseline_notifications_none_24"
-            app:iconTint="@color/black" />-->
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            app:icon="@drawable/baseline_notifications_none_24"/>
+    </LinearLayout>
 </com.google.android.material.appbar.MaterialToolbar>

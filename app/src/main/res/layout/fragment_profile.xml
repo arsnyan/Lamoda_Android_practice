@@ -2,26 +2,27 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Theme.LamodaCopy.MyView"
+    style="@style/Widget.Theme.LamodaCopy.AnyView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <include layout="@layout/toolbar_profile"
-        android:id="@+id/profile_toolbar" />
+    <include
+        android:id="@+id/profile_toolbar"
+        layout="@layout/toolbar_profile" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <View
-                android:id="@+id/view"
-                style="@style/Widget.Theme.LamodaCopy.MyView.AccentBackground"
+                android:id="@+id/background_profile_colored_view"
+                style="@style/Widget.Theme.LamodaCopy.AnyView.AccentBackground"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/btn_gifts"
@@ -30,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <include
-                android:id="@+id/include"
+                android:id="@+id/cardview_user_discount"
                 layout="@layout/user_discount_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,83 +41,69 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
-                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:id="@+id/btn_promos"
+                style="@style/Widget.Button.LamodaCopy.IconButton.TopAlignment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
                 android:text="@string/label_btn_promos"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@color/black"
                 app:icon="@drawable/outline_home_24"
-                app:iconGravity="top"
-                app:iconTint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include"
-                app:rippleColor="@android:color/darker_gray" />
+                app:layout_constraintTop_toBottomOf="@+id/cardview_user_discount" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_gifts"
-                style="@style/Widget.Material3.Button.TextButton.Icon"
+                style="@style/Widget.Button.LamodaCopy.IconButton.TopAlignment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:text="@string/label_btn_gifts"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@color/black"
                 app:icon="@drawable/outline_home_24"
-                app:iconGravity="top"
-                app:iconTint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include"
-                app:rippleColor="@android:color/darker_gray" />
+                app:layout_constraintTop_toBottomOf="@+id/cardview_user_discount" />
 
             <com.google.android.material.button.MaterialButton
-                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:id="@+id/btn_rewards"
+                style="@style/Widget.Button.LamodaCopy.IconButton.TopAlignment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:layout_marginEnd="@dimen/dimen_default_margin_step"
                 android:text="@string/label_btn_rewards"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@color/black"
                 app:icon="@drawable/outline_home_24"
-                app:iconGravity="top"
-                app:iconTint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include"
-                app:rippleColor="@android:color/darker_gray" />
+                app:layout_constraintTop_toBottomOf="@+id/cardview_user_discount" />
 
             <com.arsnyan.lamodacopy.ui.customview.ProfileSectionCardView
                 android:id="@+id/btn_orders"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_default_margin_step"
+                android:layout_marginTop="@dimen/dimen_default_margin_step"
+                android:layout_marginEnd="@dimen/dimen_grid_margin_step"
                 app:cardElevation="0dp"
                 app:icon="@drawable/outline_shopping_cart_24"
                 app:label="@string/label_orders"
+                app:layout_constraintEnd_toStartOf="@id/barrier_vertical_center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_gifts"
-                app:layout_constraintEnd_toStartOf="@id/barrier_vertical_center"
-                android:layout_marginTop="@dimen/dimen_default_margin_step"
-                android:layout_marginStart="@dimen/dimen_default_margin_step"
-                android:layout_marginEnd="@dimen/dimen_grid_margin_step"
                 app:value="2" />
 
             <com.arsnyan.lamodacopy.ui.customview.ProfileSectionCardView
-                android:id="@+id/btn_refunds"
+                android:id="@+id/btn_returns"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_grid_margin_step"
+                android:layout_marginTop="@dimen/dimen_default_margin_step"
+                android:layout_marginEnd="@dimen/dimen_default_margin_step"
                 app:cardElevation="0dp"
                 app:icon="@drawable/outline_shopping_cart_24"
-                app:label="@string/lable_refunds"
+                app:label="@string/label_returns"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_gifts"
                 app:layout_constraintStart_toEndOf="@id/barrier_vertical_center"
-                android:layout_marginTop="@dimen/dimen_default_margin_step"
-                android:layout_marginStart="@dimen/dimen_grid_margin_step"
-                android:layout_marginEnd="@dimen/dimen_default_margin_step"/>
+                app:layout_constraintTop_toBottomOf="@id/btn_gifts" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier_vertical_center"
@@ -124,136 +111,179 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="411dp"
                 app:barrierDirection="left"
-                app:constraint_referenced_ids="btn_orders,btn_refunds"
+                app:constraint_referenced_ids="btn_orders,btn_returns"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <include
+                android:id="@+id/cardview_reviews_questions"
                 layout="@layout/profile_section_reviews_card"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_orders"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                android:layout_marginTop="@dimen/dimen_grid_margin_step"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/dimen_default_margin_step"
-                                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/dimen_default_margin_half_step"
+                app:layout_constraintTop_toBottomOf="@+id/btn_orders" />
 
-                                <
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                                    android:orientation="vertical"
-                                    android:layout_weight="5">
-
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_row="2"
-                        android:layout_column="0"
-                        android:layout_columnSpan="2"
-                        android:layout_gravity="fill"
-                        app:cardElevation="0dp"
-                        android:layout_marginTop="@dimen/dimen_grid_margin_step">
-                        <LinearLayout
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:padding="@dimen/dimen_default_margin_step"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/outline_home_24"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                                android:text="@string/label_gift_cards"/>
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/round_background"
-                                android:text="@string/label_currency"/>
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-                </GridLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:textColor="#707070"
-                    android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                    android:layout_marginTop="@dimen/dimen_default_margin_half_step"
-                    android:text="@string/label_settings" />
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_default_margin_step"
-                    android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                    android:text="@string/label_product_subscriptions"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/white"
-                    app:cornerRadius="4dp"
-                    android:layout_marginTop="@dimen/dimen_default_margin_step"
-                    android:layout_marginBottom="@dimen/dimen_default_margin_half_step"
-                    android:insetLeft="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:insetTop="0dp"
-                    android:gravity="start"/>
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_default_margin_step"
-                    android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                    android:text="@string/label_product_subscriptions"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/white"
-                    app:cornerRadius="4dp"
-                    app:icon="@drawable/outline_home_24"
-                    app:iconGravity="end"
-                    android:insetLeft="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:insetTop="0dp"
-                    android:gravity="start"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_gift_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
+                android:layout_marginTop="@dimen/dimen_default_margin_half_step"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/cardview_reviews_questions"
+                tools:layout_editor_absoluteX="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_default_margin_step"
-                    android:layout_marginHorizontal="@dimen/dimen_default_margin_step">
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dimen_default_margin_step">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/baseline_notifications_none_24"
+                        app:tint="?attr/colorOnPrimary" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0.1"/>
+                        android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
+                        android:text="@string/label_gift_cards"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_check_for_updates" />
+                        android:background="@drawable/round_background"
+                        android:text="@string/label_currency"
+                        android:textSize="11sp" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/txt_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_default_margin_step"
+                android:layout_marginTop="@dimen/dimen_default_margin_step"
+                android:paddingTop="@dimen/dimen_default_margin_half_step"
+                android:text="@string/label_settings"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_gift_cards" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_subscriptions"
+                style="@style/Widget.Button.LamodaCopy.ListButtonItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_default_margin_step"
+                android:text="@string/label_product_subscriptions"
+                app:layout_constraintTop_toBottomOf="@id/txt_settings" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_country"
+                style="@style/Widget.Button.LamodaCopy.ListButtonItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
+                android:layout_marginTop="@dimen/dimen_default_margin_half_step"
+                android:text="@string/label_country"
+                app:icon="@drawable/baseline_notifications_none_24"
+                app:layout_constraintTop_toBottomOf="@id/btn_subscriptions" />
+
+            <TextView
+                android:id="@+id/txt_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_default_margin_step"
+                android:layout_marginTop="@dimen/dimen_default_margin_step"
+                android:paddingTop="@dimen/dimen_default_margin_half_step"
+                android:text="@string/label_support"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_country" />
+
+            <LinearLayout
+                android:id="@+id/support_buttons_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_default_margin_step"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/txt_support">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_support_centre"
+                    style="@style/Widget.Button.LamodaCopy.ListButtonItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_default_margin_half_step"
+                    android:text="@string/label_support_centre"
+                    app:layout_constraintTop_toBottomOf="@id/txt_settings" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_delivery_fitting"
+                    style="@style/Widget.Button.LamodaCopy.ListButtonItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_default_margin_half_step"
+                    android:text="@string/label_delivery_and_fitting"
+                    app:layout_constraintTop_toBottomOf="@id/txt_settings" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_return_policy"
+                    style="@style/Widget.Button.LamodaCopy.ListButtonItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_default_margin_half_step"
+                    android:text="@string/label_how_to_return_items"
+                    app:layout_constraintTop_toBottomOf="@id/txt_settings" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_ask_questions"
+                    style="@style/Widget.Button.LamodaCopy.ListButtonItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_ask_a_question"
+                    app:layout_constraintTop_toBottomOf="@id/txt_settings" />
             </LinearLayout>
-        </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
+                android:layout_marginVertical="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/support_buttons_holder">
+
+                <TextView
+                    android:id="@+id/txt_app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Version 0.0.1"
+                    tools:ignore="HardcodedText" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/link_check_updates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_check_for_updates" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
