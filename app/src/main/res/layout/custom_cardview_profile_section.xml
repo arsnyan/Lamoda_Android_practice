@@ -4,18 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="0dp">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_default_margin_step">
+        android:padding="@dimen/dimen_default_margin_step"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/profile_cardview_icon"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/outline_home_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:gravity="center_vertical">
+            <ImageView
+                android:id="@+id/profile_cardview_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/outline_home_24"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/profile_cardview_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="11sp"
+                android:background="@drawable/round_background"
+                android:minWidth="16dp"
+                android:gravity="center"
+                android:textColor="#707070"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
             android:id="@+id/profile_cardview_label"
@@ -23,22 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_default_margin_step"
             android:text="Orders"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            app:layout_constraintStart_toStartOf="@+id/profile_cardview_icon"
-            app:layout_constraintTop_toBottomOf="@+id/profile_cardview_icon" />
-
-        <TextView
-            android:id="@+id/profile_cardview_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="11sp"
-            android:background="@drawable/round_background"
-            android:minWidth="16dp"
-            android:gravity="center"
-            android:textColor="#707070"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_cardview_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/profile_cardview_icon" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </com.google.android.material.card.MaterialCardView>

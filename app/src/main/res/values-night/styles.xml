@@ -1,5 +1,9 @@
 <resources>
     <style name="Widget.Theme.LamodaCopy.MyView" parent="">
-        <item name="android:background">@color/gray_600</item>
+        <item name="android:background">@color/black_light</item>
+    </style>
+
+    <style name="Widget.Theme.LamodaCopy.MyView.AccentBackground" parent="">
+        <item name="android:background">@color/black</item>
     </style>
 </resources>

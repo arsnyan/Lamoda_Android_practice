@@ -13,4 +13,5 @@
     <color name="gray_600">#FF757575</color>
     <color name="mint_selector">#8BBA5C</color>
     <color name="gray_200">#EEEEEE</color>
+    <color name="black_light">#1F1F1F</color>
 </resources>
