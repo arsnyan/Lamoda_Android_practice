@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bottomnavbar_unchecked">@color/gray_600</color>
+    <color name="bottomnavbar_checked">@color/white</color>
+</resources>

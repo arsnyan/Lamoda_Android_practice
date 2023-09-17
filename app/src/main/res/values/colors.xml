@@ -8,4 +8,6 @@
     <color name="gray_600">#FF757575</color>
     <color name="mint_selector">#8BBA5C</color>
     <color name="sunset_yellow">#ffc922</color>
+    <color name="bottomnavbar_unchecked">@color/gray_600</color>
+    <color name="bottomnavbar_checked">@color/black</color>
 </resources>

@@ -35,6 +35,7 @@
     </style>
 
     <style name="rating_bar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/gray_400</item>
         <item name="colorControlActivated">@color/sunset_yellow</item>
     </style>
 </resources>
