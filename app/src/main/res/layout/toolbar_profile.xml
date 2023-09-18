@@ -6,8 +6,8 @@
     android:layout_height="?attr/actionBarSize"
     app:contentInsetStart="@dimen/dimen_default_margin_half_step"
     app:contentInsetEnd="@dimen/dimen_default_margin_half_step"
+    app:elevation="0dp"
     style="@style/Widget.Theme.LamodaCopy.AnyView.AccentBackground">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

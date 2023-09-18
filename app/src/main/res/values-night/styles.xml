@@ -33,5 +33,6 @@
         <item name="android:textColor">@color/white</item>
         <item name="iconTint">@color/white</item>
         <item name="iconGravity">end</item>
+        <item name="rippleColor">@color/lighter_black</item>
     </style>
 </resources>

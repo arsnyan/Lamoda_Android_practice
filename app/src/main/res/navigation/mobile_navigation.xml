@@ -33,6 +33,14 @@
         android:id="@+id/navigation_profile"
         android:name="com.arsnyan.lamodacopy.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_lamodaClubInfo"
+            app:destination="@id/navigation_lamodaClubInfo" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/navigation_lamodaClubInfo"
+        android:name="com.arsnyan.lamodacopy.ui.lamodaclub.LamodaClubScreenFragment"
+        tools:layout="@layout/fragment_lamoda_club_screen"/>
 </navigation>

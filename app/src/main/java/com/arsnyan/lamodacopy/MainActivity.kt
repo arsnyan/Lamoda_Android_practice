@@ -1,8 +1,11 @@
 package com.arsnyan.lamodacopy
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
@@ -35,9 +38,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         supportActionBar?.hide()
-        val flags = window.decorView.systemUiVisibility or
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
-                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        window.decorView.systemUiVisibility = flags
+
+        /*val darkModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val isDarkModeOn = darkModeFlags == Configuration.UI_MODE_NIGHT_YES
+        if (!isDarkModeOn) {
+            window.decorView.windowInsetsController.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        }*/
     }
 }
