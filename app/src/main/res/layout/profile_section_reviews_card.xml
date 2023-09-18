@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_default_margin_step"
             android:importantForAccessibility="no"
-            android:src="@drawable/outline_shopping_cart_24"
+            android:src="@drawable/outline_question_answer_24"
             app:tint="?attr/colorOnPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

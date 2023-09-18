@@ -10,4 +10,5 @@
     <color name="sunset_yellow">#ffc922</color>
     <color name="bottomnavbar_unchecked">@color/gray_600</color>
     <color name="bottomnavbar_checked">@color/black</color>
+    <color name="profile_pic_background">#65968E</color>
 </resources>

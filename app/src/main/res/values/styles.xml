@@ -8,6 +8,8 @@
 
     <style name="Widget.Button.LamodaCopy.IconButton" parent="Widget.Material3.Button.IconButton">
         <item name="iconTint">@color/lighter_black</item>
+        <item name="rippleColor">@color/gray_200</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Full</item>
     </style>
 
     <style name="Widget.Button.LamodaCopy.IconButton.TopAlignment" parent="Widget.Material3.Button.IconButton">

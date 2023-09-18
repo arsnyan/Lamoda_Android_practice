@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.Theme.LamodaCopy.AnyView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:context=".ui.profile.ProfileFragment"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_default_margin_step"
+        android:background="?attr/colorPrimary"/>
 
     <include
         android:id="@+id/profile_toolbar"
-        layout="@layout/toolbar_profile"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar_profile" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -48,7 +55,7 @@
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
                 android:text="@string/label_btn_promos"
-                app:icon="@drawable/outline_home_24"
+                app:icon="@drawable/outline_local_offer_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardview_user_discount" />
 
@@ -59,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:text="@string/label_btn_gifts"
-                app:icon="@drawable/outline_home_24"
+                app:icon="@drawable/outline_volunteer_activism_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardview_user_discount" />
@@ -72,7 +79,7 @@
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:layout_marginEnd="@dimen/dimen_default_margin_step"
                 android:text="@string/label_btn_rewards"
-                app:icon="@drawable/outline_home_24"
+                app:icon="@drawable/outline_emoji_events_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardview_user_discount" />
 
@@ -84,7 +91,7 @@
                 android:layout_marginTop="@dimen/dimen_default_margin_step"
                 android:layout_marginEnd="@dimen/dimen_grid_margin_step"
                 app:cardElevation="0dp"
-                app:icon="@drawable/outline_shopping_cart_24"
+                app:icon="@drawable/baseline_reorder_24"
                 app:label="@string/label_orders"
                 app:layout_constraintEnd_toStartOf="@id/barrier_vertical_center"
                 app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +106,7 @@
                 android:layout_marginTop="@dimen/dimen_default_margin_step"
                 android:layout_marginEnd="@dimen/dimen_default_margin_step"
                 app:cardElevation="0dp"
-                app:icon="@drawable/outline_shopping_cart_24"
+                app:icon="@drawable/outline_local_shipping_24"
                 app:label="@string/label_returns"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/barrier_vertical_center"
@@ -146,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/baseline_notifications_none_24"
+                        android:src="@drawable/outline_card_giftcard_24"
                         app:tint="?attr/colorOnPrimary" />
 
                     <TextView
@@ -286,4 +293,4 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

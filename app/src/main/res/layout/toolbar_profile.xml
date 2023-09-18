@@ -4,22 +4,29 @@
     android:id="@+id/toolbar_profile"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    app:contentInsetStart="@dimen/dimen_default_margin_half_step"
-    app:contentInsetEnd="@dimen/dimen_default_margin_half_step"
+    app:contentInsetStart="@dimen/dimen_default_margin_step"
+    app:contentInsetEnd="@dimen/dimen_default_margin_step"
     app:elevation="0dp"
     style="@style/Widget.Theme.LamodaCopy.AnyView.AccentBackground">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/profile_picture_button"
-            style="@style/Widget.Button.LamodaCopy.IconButton"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/button_profile_settings_desc"
-            app:icon="@drawable/outline_home_24"/>
+            android:layout_gravity="center_vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/squircle"/>
+            <TextView
+                android:id="@+id/txt_name_abbreviation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="N"/>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

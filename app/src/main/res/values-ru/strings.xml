@@ -34,4 +34,5 @@
     <string name="label_how_to_return_items">Как сделать возврат</string>
     <string name="label_ask_a_question">Задать вопрос</string>
     <string name="label_btn_earning_history"><u>История начислений</u></string>
+    <string name="lbl_version">Версия %1$s</string>
 </resources>
