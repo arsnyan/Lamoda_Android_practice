@@ -10,7 +10,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_default_margin_step"
+        android:layout_height="@dimen/dimen_default_margin_half_step"
         android:background="?attr/colorPrimary"/>
 
     <include
@@ -18,6 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/toolbar_profile" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_default_margin_half_step"
+        android:background="?attr/colorPrimary"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

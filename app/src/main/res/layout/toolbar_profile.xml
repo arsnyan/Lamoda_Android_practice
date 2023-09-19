@@ -32,12 +32,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/dimen_default_margin_step">
             <TextView
                 android:id="@+id/user_name_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
                 android:text="@string/profile_name"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
@@ -45,7 +45,6 @@
                 android:id="@+id/user_email_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
                 android:text="@string/profile_email"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
         </LinearLayout>
