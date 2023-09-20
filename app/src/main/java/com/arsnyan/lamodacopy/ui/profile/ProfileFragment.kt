@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.arsnyan.lamodacopy.BuildConfig
 import com.arsnyan.lamodacopy.R
+import com.arsnyan.lamodacopy.databinding.FragmentProfileBinding
 import com.arsnyan.lamodacopy.ui.customview.ProfileSectionCardView
 import com.arsnyan.lamodacopy.ui.lamodaclub.LamodaClubScreenFragment
 import com.google.android.material.appbar.AppBarLayout
@@ -33,31 +34,35 @@ class ProfileFragment : Fragment() {
     }
 
     private lateinit var viewModel: ProfileViewModel
-    private lateinit var btnOrders: ProfileSectionCardView
-    private lateinit var cardUserDiscount: MaterialCardView
-    private lateinit var txtAppVersion: TextView
-    private lateinit var btnUpdate: TextView
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-        btnOrders = view.findViewById(R.id.btn_orders)
-        cardUserDiscount = view.findViewById(R.id.cardview_user_discount)
-        txtAppVersion = view.findViewById(R.id.txt_app_version)
-        btnUpdate = view.findViewById(R.id.link_check_updates)
         val navController = Navigation.findNavController(requireView())
 
-        txtAppVersion.text = resources.getString(R.string.lbl_version, BuildConfig.VERSION_NAME)
-        btnOrders.setValue(viewModel.ordersCount)
-        cardUserDiscount.setOnClickListener {
+        binding.txtAppVersion.text = resources.getString(R.string.lbl_version, BuildConfig.VERSION_NAME)
+        binding.btnOrders.setValue(viewModel.ordersCount)
+        binding.cardviewUserDiscount.root.setOnClickListener {
             navController.navigate(R.id.action_navigation_profile_to_navigation_lamodaClubInfo)
         }
+        binding.cardviewReviewsQuestions.root.setOnClickListener {
+            navController.navigate(R.id.action_navigation_profile_to_navigation_product_screen)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

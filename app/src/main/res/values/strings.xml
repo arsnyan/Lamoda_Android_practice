@@ -34,4 +34,5 @@
     <string name="label_ask_a_question">Ask a question</string>
     <string name="label_btn_earning_history"><u>Earning history</u>></string>
     <string name="lbl_version">Version %1$s</string>
+    <string name="discount_size_placeholder" translatable="false">—%1$d\%%</string>
 </resources>

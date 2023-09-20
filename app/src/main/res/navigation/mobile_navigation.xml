@@ -37,10 +37,18 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_lamodaClubInfo"
             app:destination="@id/navigation_lamodaClubInfo" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_product_screen"
+            app:destination="@id/navigation_product_screen" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_lamodaClubInfo"
         android:name="com.arsnyan.lamodacopy.ui.lamodaclub.LamodaClubScreenFragment"
+        tools:layout="@layout/fragment_lamoda_club_screen"/>
+
+    <fragment
+        android:id="@+id/navigation_product_screen"
+        android:name="com.arsnyan.lamodacopy.ui.productview.ProductScreenFragment"
         tools:layout="@layout/fragment_lamoda_club_screen"/>
 </navigation>

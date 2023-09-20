@@ -111,7 +111,7 @@
                 android:layout_marginTop="@dimen/dimen_default_margin_step"
                 android:layout_marginEnd="@dimen/dimen_default_margin_step"
                 app:cardElevation="0dp"
-                app:icon="@drawable/outline_local_shipping_24"
+                app:icon="@drawable/baseline_restart_alt_24"
                 app:label="@string/label_returns"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/barrier_vertical_center"
