@@ -1,9 +1,18 @@
 package com.arsnyan.lamodacopy.ui.productview
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +21,7 @@ import android.widget.ArrayAdapter
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.buildSpannedString
 import androidx.core.view.marginStart
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
@@ -27,8 +37,6 @@ class ProductScreenFragment : Fragment() {
     private lateinit var viewModel: ProductScreenViewModel
     private var _binding: FragmentProductScreenBinding? = null
     private val binding get() = _binding!!
-
-    private val descriptionList = mutableListOf<ListItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,14 +69,29 @@ class ProductScreenFragment : Fragment() {
             binding.discountSize.visibility = View.GONE
         }
 
-        binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
+        val description = """
+                id
+                RTL12312912JDAS
+                size
+                48 UK
+                color
+                Black
+                Shape
+                Simple
+            """.trimIndent().split('\n')
+        var formattedDesc: SpannableString = SpannableString("")
 
-        descriptionList.add(ListItem("articule", "1"))
-        descriptionList.add(ListItem("sostav", "2"))
-        descriptionList.add(ListItem("size", "3"))
-        descriptionList.add(ListItem("articule", "RTFLA1321351"))
-        val descriptionAdapter = DescriptionArrayAdapter(view.context, , descriptionList)
-        binding.additionalDesc.adapter = descriptionAdapter
+        for (i in 0..(description.size - 1)) {
+            if (i % 2 == 0) {
+                formattedDesc = SpannableString("${formattedDesc}${color(Color.BLACK, description[i])}\n")
+            } else {
+                formattedDesc = SpannableString("${formattedDesc}${description[i]}\n")
+            }
+        }
+
+        binding.additionalDesc.text = formattedDesc
+
+        binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
 
         binding.btnExpandDesc.setOnClickListener {
             if (binding.additionalDesc.visibility == View.GONE) {
@@ -88,23 +111,29 @@ class ProductScreenFragment : Fragment() {
         _binding = null
     }
 
-    data class ListItem(val top: String, val bottom: String)
+    fun color(color: Int, vararg content: CharSequence): CharSequence = apply(content, ForegroundColorSpan(color))
 
-    class DescriptionArrayAdapter(val context: Context, resource: Int, objects: List<ListItem>) : ArrayAdapter<ListItem>(context, resource, objects) {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val listItem = getItem(position)
+    private fun apply(content: Array<out CharSequence>, vararg tags: Any): CharSequence {
+        return SpannableStringBuilder().apply {
+            openTags(tags)
+            content.forEach { charSequence -> append(charSequence) }
+            closeTags(tags)
+        }
+    }
 
-            var view = convertView
-            if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.description_list_item, parent, false)
+    private fun Spannable.openTags(tags: Array<out Any>) {
+        tags.forEach {tag ->
+            setSpan(tag, 0, 0, Spannable.SPAN_MARK_MARK)
+        }
+    }
+
+    private fun Spannable.closeTags(tags: Array<out Any>) {
+        tags.forEach { tag ->
+            if (length > 0) {
+                setSpan(tag, 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            } else {
+                removeSpan(tag)
             }
-
-            val title = view?.findViewById<TextView>(R.id.title)
-            val body = view?.findViewById<TextView>(R.id.body)
-            title?.text = listItem?.top
-            body?.text = listItem?.bottom
-
-            return view!!
         }
     }
 }

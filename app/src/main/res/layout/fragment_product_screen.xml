@@ -287,11 +287,12 @@
                 android:layout_margin="@dimen/dimen_default_margin_step"
                 android:text="Sample description test"
                 app:layout_constraintTop_toBottomOf="@id/headline_about"/>
-            <ListView
+            <TextView
                 android:id="@+id/additional_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
                 app:layout_constraintTop_toBottomOf="@id/product_description"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_expand_desc"
