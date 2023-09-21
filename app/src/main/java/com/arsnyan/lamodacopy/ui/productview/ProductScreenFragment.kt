@@ -1,28 +1,17 @@
 package com.arsnyan.lamodacopy.ui.productview
 
-import android.content.Context
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Html
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.text.buildSpannedString
-import androidx.core.view.marginStart
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
@@ -78,18 +67,9 @@ class ProductScreenFragment : Fragment() {
                 Black
                 Shape
                 Simple
-            """.trimIndent().split('\n')
-        var formattedDesc: SpannableString = SpannableString("")
+            """.trimIndent()
 
-        for (i in 0..(description.size - 1)) {
-            if (i % 2 == 0) {
-                formattedDesc = SpannableString("${formattedDesc}${color(Color.BLACK, description[i])}\n")
-            } else {
-                formattedDesc = SpannableString("${formattedDesc}${description[i]}\n")
-            }
-        }
-
-        binding.additionalDesc.text = formattedDesc
+        binding.additionalDesc.text = description
 
         binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
 
