@@ -349,7 +349,6 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:text="of this color"/>
             </com.google.android.material.chip.ChipGroup>
-            <!--TODO(Continue here)-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_similar_products"
                 android:layout_width="match_parent"

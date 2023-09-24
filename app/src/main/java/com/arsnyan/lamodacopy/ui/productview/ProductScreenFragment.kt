@@ -6,19 +6,22 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlin.math.floor
 
 class ProductScreenFragment : Fragment() {
-
     companion object {
         fun newInstance() = ProductScreenFragment()
     }
@@ -84,36 +87,14 @@ class ProductScreenFragment : Fragment() {
                 TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
             }
         }
+
+        viewModel.getProduct().observe(viewLifecycleOwner) { it ->
+            Log.d("DEBUG", it.toString())
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun color(color: Int, vararg content: CharSequence): CharSequence = apply(content, ForegroundColorSpan(color))
-
-    private fun apply(content: Array<out CharSequence>, vararg tags: Any): CharSequence {
-        return SpannableStringBuilder().apply {
-            openTags(tags)
-            content.forEach { charSequence -> append(charSequence) }
-            closeTags(tags)
-        }
-    }
-
-    private fun Spannable.openTags(tags: Array<out Any>) {
-        tags.forEach {tag ->
-            setSpan(tag, 0, 0, Spannable.SPAN_MARK_MARK)
-        }
-    }
-
-    private fun Spannable.closeTags(tags: Array<out Any>) {
-        tags.forEach { tag ->
-            if (length > 0) {
-                setSpan(tag, 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            } else {
-                removeSpan(tag)
-            }
-        }
     }
 }
