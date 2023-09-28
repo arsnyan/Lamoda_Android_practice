@@ -1,32 +1,50 @@
 package com.arsnyan.lamodacopy.ui.productview
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.arsnyan.lamodacopy.FirestoreRepository
+import androidx.lifecycle.viewModelScope
 import com.arsnyan.lamodacopy.data.Product
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.QuerySnapshot
+import com.arsnyan.lamodacopy.data.ProductDto
+import com.arsnyan.lamodacopy.data.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductScreenViewModel : ViewModel() {
-    private val TAG = "PRODUCT_SCREEN_VM"
-    private var firebaseRepository = FirestoreRepository()
-    private var product: MutableLiveData<Product?> = MutableLiveData()
-    fun getProduct(): MutableLiveData<Product?> {
-        firebaseRepository.getProducts().addSnapshotListener(EventListener { value, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed", e)
-                product.value = null
-                return@EventListener
-            }
+@HiltViewModel
+class ProductScreenViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    private val _product = MutableStateFlow<Product?>(null)
+    val product: Flow<Product?> = _product
 
-            var prod: Product? = null
-            for (p in value!!) {
-                prod = p.toObject(Product::class.java)
-            }
-            product.value = prod
-        })
-        return product
+    init {
+        savedStateHandle.get<Int>("product_id")?.let {
+            getProduct(id = it)
+        }
+    }
+
+    private fun getProduct(id: Int) {
+        viewModelScope.launch {
+            val result = productRepository.getProduct(id).asDomainModel()
+            _product.emit(result)
+        }
+    }
+
+    private fun ProductDto.asDomainModel(): Product {
+        return Product(
+            id = this.id,
+            brand = this.brand,
+            category = this.category,
+            urls = this.urls,
+            currentPrice = this.currentPrice,
+            originalPrice = this.originalPrice,
+            sizes = this.sizes,
+            attributes = this.attributes
+        )
     }
 }

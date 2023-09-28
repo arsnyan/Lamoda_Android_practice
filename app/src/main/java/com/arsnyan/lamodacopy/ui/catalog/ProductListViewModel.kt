@@ -1,7 +1,42 @@
 package com.arsnyan.lamodacopy.ui.catalog
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.arsnyan.lamodacopy.data.Product
+import com.arsnyan.lamodacopy.data.ProductDto
+import com.arsnyan.lamodacopy.data.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductListViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+@HiltViewModel
+class ProductListViewModel @Inject constructor(private val productRepository: ProductRepository) : ViewModel() {
+    private val _productList = MutableStateFlow<List<Product>?>(listOf())
+    val productList: Flow<List<Product>?> = _productList
+
+    init {
+        getProducts()
+    }
+
+    fun getProducts() {
+        viewModelScope.launch {
+            val products = productRepository.getProducts()
+            _productList.emit(products?.map { it.asDomainModel() })
+        }
+    }
+
+    private fun ProductDto.asDomainModel(): Product {
+        return Product(
+            id = this.id,
+            brand = this.brand,
+            category = this.category,
+            urls = this.urls,
+            currentPrice = this.currentPrice,
+            originalPrice = this.originalPrice,
+            sizes = this.sizes,
+            attributes = this.attributes
+        )
+    }
 }

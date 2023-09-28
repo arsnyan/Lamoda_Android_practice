@@ -12,10 +12,11 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
-import com.arsnyan.lamodacopy.ui.IndicatorSliderLabelFormatter
+import com.arsnyan.lamodacopy.databinding.FragmentLamodaClubScreenBinding
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.slider.Slider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LamodaClubScreenFragment : Fragment() {
 
     companion object {
@@ -23,37 +24,31 @@ class LamodaClubScreenFragment : Fragment() {
     }
 
     private lateinit var viewModel: LamodaClubScreenViewModel
-    private lateinit var btnExpandClubOptions: MaterialButton
-    private lateinit var layoutClubCardView: ConstraintLayout
-    private lateinit var linearLayoutExpandable: LinearLayout
-    private lateinit var backButton: MaterialButton
+    private var _binding: FragmentLamodaClubScreenBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_lamoda_club_screen, container, false)
+    ): View {
+        _binding = FragmentLamodaClubScreenBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btnExpandClubOptions = view.findViewById(R.id.btn_expand_lamodaClubOptions)
-        layoutClubCardView = view.findViewById(R.id.layout_clubCard)
-        linearLayoutExpandable = view.findViewById(R.id.linearLayout_lamodaClub_expandable)
-        backButton = view.findViewById(R.id.btn_back_lamodaClub)
+        viewModel = ViewModelProvider(this)[LamodaClubScreenViewModel::class.java]
 
-        btnExpandClubOptions.setOnClickListener {
-            linearLayoutExpandable.isVisible = !linearLayoutExpandable.isVisible
-            TransitionManager.beginDelayedTransition(linearLayoutExpandable.parent as ViewGroup)
+        binding.btnExpandLamodaClubOptions.setOnClickListener {
+            binding.linearLayoutLamodaClubExpandable.isVisible = !binding.linearLayoutLamodaClubExpandable.isVisible
+            TransitionManager.beginDelayedTransition(binding.linearLayoutLamodaClubExpandable.parent as ViewGroup)
         }
 
-        backButton.setOnClickListener { findNavController().navigateUp() }
+        binding.btnBackLamodaClub.setOnClickListener { findNavController().navigateUp() }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LamodaClubScreenViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
 }
