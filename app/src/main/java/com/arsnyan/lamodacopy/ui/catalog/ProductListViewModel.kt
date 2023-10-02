@@ -1,5 +1,6 @@
 package com.arsnyan.lamodacopy.ui.catalog
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arsnyan.lamodacopy.data.Product
@@ -20,23 +21,11 @@ class ProductListViewModel @Inject constructor(private val productRepository: Pr
         getProducts()
     }
 
-    fun getProducts() {
+    private fun getProducts() {
         viewModelScope.launch {
             val products = productRepository.getProducts()
+            Log.d("SOMEEEE", products.toString())
             _productList.emit(products?.map { it.asDomainModel() })
         }
-    }
-
-    private fun ProductDto.asDomainModel(): Product {
-        return Product(
-            id = this.id,
-            brand = this.brand,
-            category = this.category,
-            urls = this.urls,
-            currentPrice = this.currentPrice,
-            originalPrice = this.originalPrice,
-            sizes = this.sizes,
-            attributes = this.attributes
-        )
     }
 }

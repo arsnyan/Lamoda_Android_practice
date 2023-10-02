@@ -70,6 +70,7 @@ dependencies {
 
     val pagingVersion = "3.2.1"
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
 //    val roomVersion = "2.5.2"
 //    implementation("androidx.room:room-runtime:$roomVersion")

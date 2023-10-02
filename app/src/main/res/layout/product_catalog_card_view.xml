@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_margin="@dimen/dimen_default_margin_half_step"
+    app:cardCornerRadius="@dimen/dimen_default_margin_half_step">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackground">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/image_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_to_favourites"
+            style="@style/Widget.Button.LamodaCopy.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/outline_favorite_border_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/show_similar"
+            style="@style/Widget.Button.LamodaCopy.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/baseline_calendar_view_month_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/badge_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/new_badge"
+            android:backgroundTint="#BDE68F"
+            android:text="new"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/image_carousel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/badge_club_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/new_badge"
+            android:backgroundTint="#C7EDFF"
+            android:text="-10% club"
+            android:textColor="#8BAAB8"
+            app:layout_constraintBottom_toBottomOf="@+id/image_carousel"
+            app:layout_constraintStart_toEndOf="@+id/badge_new" />
+
+        <TextView
+            android:id="@+id/badge_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/new_badge"
+            android:backgroundTint="@color/branded_flame"
+            android:text="-41%"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/image_carousel"
+            app:layout_constraintStart_toEndOf="@+id/badge_club_discount" />
+
+        <TextView
+            android:id="@+id/original_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
+            android:text="7499"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/current_price"/>
+
+        <TextView
+            android:id="@+id/current_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
+            android:layout_marginTop="@dimen/dimen_default_margin_half_step"
+            android:text="6750 R"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintStart_toEndOf="@+id/original_price"
+            app:layout_constraintTop_toBottomOf="@+id/image_carousel" />
+
+        <TextView
+            android:id="@+id/brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_default_margin_half_step"
+            android:text="Vans"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/original_price" />
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_default_margin_half_step"
+            android:text="Shirt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/brand" />
+
+        <TextView
+            android:id="@+id/available_sizes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_default_margin_half_step"
+            android:layout_marginStart="@dimen/dimen_default_margin_half_step"
+            android:text="Sizes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

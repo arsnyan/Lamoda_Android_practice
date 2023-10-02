@@ -11,16 +11,29 @@ import javax.inject.Inject
 
 @Serializable
 data class ProductDto(
-    @SerialName("id") val id: Int, @SerialName("brand") val brand: String, @SerialName("category") val category: String,
-    @SerialName("urls") val urls: List<String>?, @SerialName("current_price") var currentPrice: Int, @SerialName("original_price") var originalPrice: Int,
-    @SerialName("available_items") var availableItems: Int, @SerialName("sizes") var sizes: Map<String, String>,
-    @SerialName("attributes") var attributes: Map<String, String>? = null
-)
+    @SerialName("id") val id: Long, @SerialName("brand") val brand: String, @SerialName("category") val category: String,
+    @SerialName("urls") val urls: Array<String>, @SerialName("current_price") var currentPrice: Int, @SerialName("original_price") var originalPrice: Int,
+    @SerialName("sizes") var sizes: String, @SerialName("available_items") var availableItems: Int?
+    //@SerialName("attributes") var attributes: Map<String, String>? = null
+) {
+    fun asDomainModel(): Product {
+        return Product(
+            id = this.id,
+            brand = this.brand,
+            category = this.category,
+            urls = this.urls,
+            currentPrice = this.currentPrice,
+            originalPrice = this.originalPrice,
+            sizes = this.sizes,
+            //attributes = this.attributes
+        )
+    }
+}
 
 data class Product(
-    val id: Int, val brand: String, val category: String,
-    val urls: List<String>?, var currentPrice: Int, var originalPrice: Int,
-    var sizes: Map<String, String>, var attributes: Map<String, String>? = null
+    val id: Long, val brand: String, val category: String,
+    val urls: Array<String>, var currentPrice: Int, var originalPrice: Int,
+    var sizes: String//, var attributes: Map<String, String>? = null
 )
 
 interface ProductRepository {
@@ -28,7 +41,7 @@ interface ProductRepository {
     suspend fun getProduct(id: Int): ProductDto
 }
 
-class ProductRepositoryImpl @Inject constructor(private val postgrest: Postgrest) : ProductRepository {
+class ProductRepositoryImpl @Inject constructor(private val postgrest: Postgrest, private val client: SupabaseClient) : ProductRepository {
     override suspend fun getProducts(): List<ProductDto>? {
         return withContext(Dispatchers.IO) {
             postgrest["products"].select().decodeList()

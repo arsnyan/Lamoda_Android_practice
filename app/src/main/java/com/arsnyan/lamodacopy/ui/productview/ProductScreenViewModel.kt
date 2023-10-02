@@ -34,17 +34,4 @@ class ProductScreenViewModel @Inject constructor(
             _product.emit(result)
         }
     }
-
-    private fun ProductDto.asDomainModel(): Product {
-        return Product(
-            id = this.id,
-            brand = this.brand,
-            category = this.category,
-            urls = this.urls,
-            currentPrice = this.currentPrice,
-            originalPrice = this.originalPrice,
-            sizes = this.sizes,
-            attributes = this.attributes
-        )
-    }
 }

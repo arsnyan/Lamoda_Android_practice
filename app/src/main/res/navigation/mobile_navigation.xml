@@ -15,7 +15,11 @@
         android:id="@+id/navigation_catalog"
         android:name="com.arsnyan.lamodacopy.ui.catalog.CatalogFragment"
         android:label="@string/title_catalog"
-        tools:layout="@layout/fragment_catalog" />
+        tools:layout="@layout/fragment_catalog" >
+        <action
+            android:id="@+id/action_navigation_catalog_to_productListFragment"
+            app:destination="@id/productListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_cart"
@@ -50,5 +54,10 @@
     <fragment
         android:id="@+id/navigation_product_screen"
         android:name="com.arsnyan.lamodacopy.ui.productview.ProductScreenFragment"
-        tools:layout="@layout/fragment_lamoda_club_screen"/>
+        tools:layout="@layout/fragment_product_screen"/>
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.arsnyan.lamodacopy.ui.catalog.ProductListFragment"
+        android:label="fragment_product_list"
+        tools:layout="@layout/fragment_product_list" />
 </navigation>
