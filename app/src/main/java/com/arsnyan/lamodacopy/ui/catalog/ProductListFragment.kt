@@ -102,15 +102,8 @@ class ProductListFragment : Fragment() {
                         binding.badgeDiscount.visibility = View.GONE
                     }
                     binding.brand.text = it.brand?.name
-                    context.resources.getStringArray(R.array.categories).map { res ->  }
-                    val currentLocale: Locale = context.resources.configuration.locales[0]
-                    if (currentLocale.language != Locale.ENGLISH.language) {
-
-                    } else {
-                        binding.category.text = it.category?.name
-
-                    }
-                    binding.availableSizes.text = it.sizes.joinToString(", ")
+                    binding.category.text = it.category?.name
+                    binding.availableSizes.text = it.sizes.map { originalSizeObj -> originalSizeObj.sizeRu }.joinToString(", ")
                 }
             }
         }

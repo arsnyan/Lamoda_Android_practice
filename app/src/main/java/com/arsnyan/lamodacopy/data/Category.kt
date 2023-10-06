@@ -1,5 +1,7 @@
 package com.arsnyan.lamodacopy.data
 
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +23,13 @@ interface CategoryRepository {
     suspend fun getCategory(id: Int): CategoryDto
 }
 
-class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgrest, private val client: SupabaseClient) : CategoryRepository {
+class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgrest, @ApplicationContext private val context: Context) : CategoryRepository {
     override suspend fun getCategories(): List<CategoryDto> {
         return withContext(Dispatchers.IO) {
-            postgrest["categories"].select().decodeList()
+            if (context.resources.configuration.locales[0].language == "ru")
+                postgrest["categories_ru"].select().decodeList()
+            else
+                postgrest["categories"].select().decodeList()
         }
     }
 

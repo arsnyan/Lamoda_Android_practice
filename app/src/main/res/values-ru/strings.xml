@@ -36,22 +36,4 @@
     <string name="label_ask_a_question">Задать вопрос</string>
     <string name="label_btn_earning_history"><u>История начислений</u></string>
     <string name="lbl_version">Версия %1$s</string>
-
-    <string-array name="categories">
-        <!--Unisex-->
-        <string>Штаны:5</string>
-        <string>Джемперы, свитеры и кардиганы:6</string>
-        <string>Джинсы:7</string>
-        <string>Домашняя одежда:8</string>
-        <string>Майки:9</string>
-        <string>Нижнее бельё:10</string>
-        <string>Носки и гетры:11</string>
-        <string>Рубашки:12</string>
-        <string>Футболки:13</string>
-        <string>Худи и свитшоты:14</string>
-        <string>Шорты:15</string>
-
-        <!--Female-->
-        <string>Рубашки:4</string>
-    </string-array>
 </resources>
