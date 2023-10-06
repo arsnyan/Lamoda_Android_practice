@@ -35,4 +35,24 @@
     <string name="label_btn_earning_history"><u>Earning history</u>></string>
     <string name="lbl_version">Version %1$s</string>
     <string name="discount_size_placeholder" translatable="false">—%1$d\%%</string>
+    <string name="lbl_formatted_price" translatable="false">%1$d ₽</string>
+    <string name="lbl_discount_formatted" translatable="false">—%1$s%%</string>
+
+    <string-array name="categories">
+        <!--Unisex Categories-->
+        <string>Pants:5</string>
+        <string>Tops:6</string>
+        <string>Jeans:7</string>
+        <string>Home clothing:8</string>
+        <string>Short T-Shirts:9</string>
+        <string>Underwear:10</string>
+        <string>Socks:11</string>
+        <string>Shirts:12</string>
+        <string>T-Shirts:13</string>
+        <string>Hoodies and sweatshirts:14</string>
+        <string>Shorts:15</string>
+
+        <!-- Female Categories-->
+        <string>Shirts:4</string>
+    </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package com.arsnyan.lamodacopy.ui.catalog
 
+import android.content.Context
 import android.graphics.Paint
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -29,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 @AndroidEntryPoint
 class ProductListFragment : Fragment() {
@@ -52,10 +54,11 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ProductListViewModel::class.java]
+
         var adapter: ProductAdapter
         lifecycleScope.launch {
             viewModel.productList.collect {products ->
-                adapter = ProductAdapter(products!!)
+                adapter = ProductAdapter(products!!, view.context)
                 binding.productList.adapter = adapter
             }
         }
@@ -69,7 +72,7 @@ class ProductListFragment : Fragment() {
         _binding = null
     }
 
-    class ProductAdapter(private val dataSet: List<Product>) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+    class ProductAdapter(private val dataSet: List<Product>, private val context: Context) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
         inner class ViewHolder(val binding: ProductCatalogCardViewBinding) : RecyclerView.ViewHolder(binding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
@@ -83,7 +86,7 @@ class ProductListFragment : Fragment() {
                 dataSet[position].let {
                     binding.imageCarousel.adapter = ViewPagerAdapter(it.urls)
                     binding.originalPrice.text = it.originalPrice.toString()
-                    binding.currentPrice.text = "${it.currentPrice.toString()} ₽"
+                    binding.currentPrice.text = context.getString(R.string.lbl_formatted_price, it.currentPrice)
                     if(it.originalPrice > it.currentPrice) {
                         binding.originalPrice.apply {
                             paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
@@ -92,20 +95,27 @@ class ProductListFragment : Fragment() {
                             setTextColor(resources.getColor(R.color.branded_flame, resources.newTheme()))
                         }
                         val discount = (100 - ((it.currentPrice * 100)/it.originalPrice)).toString()
-                        binding.badgeDiscount.text = "—$discount%"
+                        binding.badgeDiscount.text = context.getString(R.string.lbl_discount_formatted, discount)
                     } else {
                         binding.originalPrice.visibility = View.GONE
                         binding.badgeClubDiscount.visibility = View.GONE
                         binding.badgeDiscount.visibility = View.GONE
                     }
-                    binding.brand.text = it.brand
-                    binding.category.text = it.category
-                    binding.availableSizes.text = it.sizes
+                    binding.brand.text = it.brand?.name
+                    context.resources.getStringArray(R.array.categories).map { res ->  }
+                    val currentLocale: Locale = context.resources.configuration.locales[0]
+                    if (currentLocale.language != Locale.ENGLISH.language) {
+
+                    } else {
+                        binding.category.text = it.category?.name
+
+                    }
+                    binding.availableSizes.text = it.sizes.joinToString(", ")
                 }
             }
         }
 
-        private class ViewPagerAdapter(private val urls: Array<String>) : RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
+        private class ViewPagerAdapter(private val urls: List<String>) : RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
             inner class ViewHolder(val binding: ImageSliderPagerBinding) : RecyclerView.ViewHolder(binding.root)
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(

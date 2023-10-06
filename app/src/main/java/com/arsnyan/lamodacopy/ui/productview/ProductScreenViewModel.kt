@@ -30,8 +30,8 @@ class ProductScreenViewModel @Inject constructor(
 
     private fun getProduct(id: Int) {
         viewModelScope.launch {
-            val result = productRepository.getProduct(id).asDomainModel()
-            _product.emit(result)
+            //val result = productRepository.getProduct(id).asDomainModel()
+            //_product.emit(result)
         }
     }
 }

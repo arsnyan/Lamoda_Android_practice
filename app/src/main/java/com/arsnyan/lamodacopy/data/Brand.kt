@@ -21,12 +21,12 @@ data class BrandDto(@SerialName("id") val id: Int, @SerialName("name") val name:
 data class Brand(val id: Int, val name: String, val logo: String)
 
 interface BrandRepository {
-    suspend fun getBrands(): List<BrandDto>?
+    suspend fun getBrands(): List<BrandDto>
     suspend fun getBrand(id: Int): BrandDto
 }
 
 class BrandRepositoryImpl @Inject constructor(private val postgrest: Postgrest) : BrandRepository {
-    override suspend fun getBrands(): List<BrandDto>? {
+    override suspend fun getBrands(): List<BrandDto> {
         return withContext(Dispatchers.IO) {
             postgrest["brands"].select().decodeList()
         }

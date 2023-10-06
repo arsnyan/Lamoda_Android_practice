@@ -33,7 +33,7 @@ class CatalogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[CatalogViewModel::class.java]
         binding.btn.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_navigation_catalog_to_productListFragment)
+            Navigation.findNavController(view).navigate(R.id.action_navigation_catalog_to_navigation_product_list)
         }
     }
 

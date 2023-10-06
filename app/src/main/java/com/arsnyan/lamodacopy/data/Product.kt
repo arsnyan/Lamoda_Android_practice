@@ -1,8 +1,8 @@
 package com.arsnyan.lamodacopy.data
 
+import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
@@ -11,29 +11,32 @@ import javax.inject.Inject
 
 @Serializable
 data class ProductDto(
-    @SerialName("id") val id: Long, @SerialName("brand") val brand: String, @SerialName("category") val category: String,
-    @SerialName("urls") val urls: Array<String>, @SerialName("current_price") var currentPrice: Int, @SerialName("original_price") var originalPrice: Int,
-    @SerialName("sizes") var sizes: String, @SerialName("available_items") var availableItems: Int?
-    //@SerialName("attributes") var attributes: Map<String, String>? = null
+    @SerialName("id") val id: Long, @SerialName("brand") val brand: Int, @SerialName("category") val category: Int,
+    @SerialName("urls") val urls: List<String>, @SerialName("current_price") var currentPrice: Int, @SerialName("original_price") var originalPrice: Int,
+    @SerialName("sizes") var sizes: List<Int>, @SerialName("available_items") var availableItems: Int?,
+    @SerialName("created_at") var timestamptz: String
 ) {
-    fun asDomainModel(): Product {
+    fun asDomainModel(brandList: List<Brand>, categoryList: List<Category>, sizesList: List<Size>): Product {
+        Log.d("BRANDS_DTO", this.brand.toString())
+        Log.d("BRAND_DTO_TIMESTAMP", this.timestamptz)
+
         return Product(
             id = this.id,
-            brand = this.brand,
-            category = this.category,
+            brand = brandList.find { brand -> brand.id == this.brand },
+            category = categoryList.find { category -> category.id == this.category },
             urls = this.urls,
             currentPrice = this.currentPrice,
             originalPrice = this.originalPrice,
-            sizes = this.sizes,
-            //attributes = this.attributes
+            sizes = this.sizes.mapNotNull { sizeId -> sizesList.find { size -> size.id == sizeId } },
+            availableItems = this.availableItems
         )
     }
 }
 
 data class Product(
-    val id: Long, val brand: String, val category: String,
-    val urls: Array<String>, var currentPrice: Int, var originalPrice: Int,
-    var sizes: String//, var attributes: Map<String, String>? = null
+    val id: Long, val brand: Brand?, val category: Category?,
+    val urls: List<String>, var currentPrice: Int, var originalPrice: Int,
+    var sizes: List<Size>, var availableItems: Int?
 )
 
 interface ProductRepository {
@@ -42,7 +45,7 @@ interface ProductRepository {
 }
 
 class ProductRepositoryImpl @Inject constructor(private val postgrest: Postgrest, private val client: SupabaseClient) : ProductRepository {
-    override suspend fun getProducts(): List<ProductDto>? {
+    override suspend fun getProducts(): List<ProductDto> {
         return withContext(Dispatchers.IO) {
             postgrest["products"].select().decodeList()
         }
