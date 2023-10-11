@@ -8,15 +8,5 @@ import io.github.jan.supabase.postgrest.Postgrest
 
 @HiltAndroidApp
 class LamodaApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-    }
 }

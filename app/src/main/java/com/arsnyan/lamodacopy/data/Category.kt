@@ -35,7 +35,10 @@ class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgres
 
     override suspend fun getCategory(id: Int): CategoryDto {
         return withContext(Dispatchers.IO) {
-            postgrest["categories"].select { eq("id", id) }.decodeSingle()
+            if (context.resources.configuration.locales[0].language == "ru")
+                postgrest["categories_ru"].select { eq("id", id) }.decodeSingle()
+            else
+                postgrest["categories"].select { eq("id", id) }.decodeSingle()
         }
     }
 }

@@ -12,4 +12,6 @@
     <color name="bottomnavbar_checked">@color/black</color>
     <color name="profile_pic_background">#65968E</color>
     <color name="branded_flame">#EB401A</color>
+
+    <color name="disabled">@color/gray_400</color>
 </resources>

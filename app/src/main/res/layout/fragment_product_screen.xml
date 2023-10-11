@@ -13,12 +13,10 @@
             android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ImageView
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/product_carousel"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/testing_cloth_preview"
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
                 android:layout_marginTop="@dimen/dimen_default_margin_step"
-                android:text="Brand"
+                tools:text="Brand"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/product_carousel" />
 
@@ -40,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                android:text="Category"
+                tools:text="Category"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/product_brand" />
 
@@ -57,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
                 android:layout_marginBottom="8dp"
-                android:text="3999"
+                tools:text="3999"
                 app:layout_constraintBottom_toBottomOf="@+id/expand_discount_options"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -65,9 +63,9 @@
                 android:id="@+id/current_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
+                android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
                 android:layout_marginBottom="8dp"
-                android:text="3200"
+                tools:text="3200"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -80,7 +78,7 @@
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
                 android:layout_marginBottom="1dp"
-                android:text="-19%"
+                tools:text="-19%"
                 android:textSize="13sp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/current_price"
@@ -104,17 +102,34 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/expand_discount_options">
 
-                <TextView
-                    android:id="@+id/lamoda_discount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lamoda discount" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/lamoda_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_lamoda_discount"
+                        tools:text="Скидка от магазина"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="..............................................................."
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/lamoda_discount_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discount_size_placeholder" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/lamoda_club_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lamoda Club discount" />
+                    android:text="@string/lbl_lamoda_club_discount"
+                    tools:text="Клубная скидка"/>
             </LinearLayout>
 
             <TextView
@@ -123,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
                 android:layout_marginTop="@dimen/dimen_default_margin_step"
-                android:text="RUS"
+                android:text="@string/size_lbl_rus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/discount_options" />
 
@@ -132,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
-                android:text="INT"
+                android:text="@string/size_lbl_int"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ru_size" />
             <HorizontalScrollView
@@ -154,8 +169,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
-                android:layout_marginTop="@dimen/dimen_default_margin_half_step"
-                android:text="Size description"
+                android:layout_marginTop="@dimen/dimen_grid_margin_step"
+                tools:text="Size description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brand_size" />
 
@@ -165,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
                 android:layout_marginTop="@dimen/dimen_default_margin_half_step"
-                android:text="Size table"
+                android:text="@string/lbl_size_table"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/size_description" />
 
@@ -188,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
                     android:layout_marginTop="@dimen/dimen_default_margin_step"
-                    android:text="Other colors" />
+                    android:text="@string/lbl_other_colors" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/color_options_list"
@@ -216,7 +231,7 @@
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
-                android:text="Add to cart&#10;3 items left"
+                android:text="@string/lbl_add_to_cart"
                 android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf="@+id/layout_holder_colors"
                 tools:layout_editor_absoluteX="16dp" />
@@ -237,7 +252,7 @@
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
                 android:layout_marginEnd="@dimen/dimen_default_margin_half_step"
-                android:text="Mark favourite"
+                android:text="@string/lbl_mark_favourite"
                 app:icon="@drawable/outline_favorite_border_24"
                 app:iconGravity="textStart"
                 app:layout_constraintEnd_toStartOf="@id/vertical_barrier"
@@ -252,7 +267,7 @@
                 android:layout_marginVertical="@dimen/dimen_default_margin_step"
                 android:layout_marginStart="@dimen/dimen_default_margin_half_step"
                 android:layout_marginEnd="@dimen/dimen_default_margin_step"
-                android:text="Share"
+                android:text="@string/lbl_share"
                 app:icon="@drawable/outline_share_24"
                 app:iconGravity="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -276,7 +291,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_default_margin_step"
-                android:text="About product"
+                android:text="@string/lbl_about_product"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 app:layout_constraintTop_toBottomOf="@id/divider3"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -285,7 +300,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_default_margin_step"
-                android:text="Sample description test"
+                tools:text="Sample description test"
                 app:layout_constraintTop_toBottomOf="@id/headline_about"/>
             <TextView
                 android:id="@+id/additional_desc"
@@ -323,7 +338,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_default_margin_step"
-                android:text="Similar"
+                android:text="@string/lbl_similar"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 app:layout_constraintTop_toBottomOf="@+id/divider5"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -337,17 +352,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:text="of this brand"/>
+                    android:text="@string/chip_lbl_of_this_brand"/>
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:text="visually"/>
+                    android:text="@string/chip_lbl_visually"/>
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:text="of this color"/>
+                    android:text="@string/chip_lbl_of_this_color"/>
             </com.google.android.material.chip.ChipGroup>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_similar_products"
@@ -364,7 +379,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_default_margin_step"
-                android:text="People buy this with"
+                android:text="@string/lbl_people_buy_this_with"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 app:layout_constraintTop_toBottomOf="@id/divider6"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -383,7 +398,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_default_margin_step"
-                android:text="Recently seen"
+                android:text="@string/lbl_recently_seen"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 app:layout_constraintTop_toBottomOf="@id/divider7"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -402,7 +417,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_default_margin_step"
-                android:text="Need help?"
+                android:text="@string/lbl_need_help"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 app:layout_constraintTop_toBottomOf="@id/divider8"
                 app:layout_constraintStart_toStartOf="parent"/>

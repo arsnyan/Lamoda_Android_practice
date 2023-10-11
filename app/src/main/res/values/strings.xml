@@ -1,5 +1,5 @@
 <resources>
-    <string name="application_name" translatable="false">Lamoda Copy</string>
+    <string name="application_name">Lamoda Copy</string>
     <string name="title_catalog">Catalog</string>
     <string name="title_cart">Cart</string>
     <string name="title_favourites">Favourites</string>
@@ -34,7 +34,25 @@
     <string name="label_ask_a_question">Ask a question</string>
     <string name="label_btn_earning_history"><u>Earning history</u>></string>
     <string name="lbl_version">Version %1$s</string>
-    <string name="discount_size_placeholder" translatable="false">—%1$d\%%</string>
+    <string name="discount_size_placeholder" translatable="false">—%1$d%%</string>
     <string name="lbl_formatted_price" translatable="false">%1$d ₽</string>
     <string name="lbl_discount_formatted" translatable="false">—%1$s%%</string>
+    <string name="lbl_add_to_cart">Add to cart\n%1$d items left</string>
+    <string name="lbl_out_of_stock">Out of stock</string>
+    <string name="lbl_lamoda_discount">Lamoda discount</string>
+    <string name="lbl_lamoda_club_discount">Lamoda Club discount</string>
+    <string name="size_lbl_rus" translatable="false">RUS</string>
+    <string name="size_lbl_int" translatable="false">INT</string>
+    <string name="lbl_size_table">Size table</string>
+    <string name="lbl_other_colors">Other colors</string>
+    <string name="lbl_mark_favourite">Mark favourite</string>
+    <string name="lbl_share">Share</string>
+    <string name="lbl_about_product">About product</string>
+    <string name="lbl_similar">Similar</string>
+    <string name="chip_lbl_of_this_brand">of this brand</string>
+    <string name="chip_lbl_visually">visually</string>
+    <string name="chip_lbl_of_this_color">of this color</string>
+    <string name="lbl_people_buy_this_with">People buy this with</string>
+    <string name="lbl_recently_seen">Recently seen</string>
+    <string name="lbl_need_help">Need help?</string>
 </resources>

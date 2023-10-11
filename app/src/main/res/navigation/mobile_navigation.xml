@@ -41,9 +41,6 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_lamodaClubInfo"
             app:destination="@id/navigation_lamodaClubInfo" />
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_product_screen"
-            app:destination="@id/navigation_product_screen" />
     </fragment>
 
     <fragment
@@ -59,5 +56,13 @@
     <fragment
         android:id="@+id/navigation_product_list"
         android:name="com.arsnyan.lamodacopy.ui.catalog.ProductListFragment"
-        tools:layout="@layout/fragment_product_list" />
+        tools:layout="@layout/fragment_product_list" >
+        <action
+            android:id="@+id/action_navigation_product_list_to_navigation_product_screen"
+            app:destination="@id/navigation_product_screen">
+            <argument
+                android:name="product_id"
+                app:argType="integer" />
+        </action>
+    </fragment>
 </navigation>

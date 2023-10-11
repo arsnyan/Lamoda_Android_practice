@@ -2,35 +2,27 @@ package com.arsnyan.lamodacopy.ui.catalog
 
 import android.content.Context
 import android.graphics.Paint
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.view.marginStart
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import coil.load
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.data.Product
 import com.arsnyan.lamodacopy.databinding.FragmentProductListBinding
 import com.arsnyan.lamodacopy.databinding.ImageSliderPagerBinding
 import com.arsnyan.lamodacopy.databinding.ProductCatalogCardViewBinding
+import com.arsnyan.lamodacopy.utils.hasDaysPassed
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Locale
 
 @AndroidEntryPoint
 class ProductListFragment : Fragment() {
@@ -39,7 +31,6 @@ class ProductListFragment : Fragment() {
         fun newInstance() = ProductListFragment()
     }
 
-    private lateinit var viewModel: ProductListViewModel
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
 
@@ -53,15 +44,16 @@ class ProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProductListViewModel::class.java]
+        val viewModel: ProductListViewModel by viewModels()
 
         var adapter: ProductAdapter
         lifecycleScope.launch {
-            viewModel.productList.collect {products ->
+            viewModel.productList.collect { products ->
                 adapter = ProductAdapter(products!!, view.context)
                 binding.productList.adapter = adapter
             }
         }
+
         val manager = GridLayoutManager(context, 2)
         manager.orientation = VERTICAL
         binding.productList.layoutManager = manager
@@ -104,7 +96,13 @@ class ProductListFragment : Fragment() {
                     binding.brand.text = it.brand?.name
                     binding.category.text = it.category?.name
                     binding.availableSizes.text = it.sizes.map { originalSizeObj -> originalSizeObj.sizeRu }.joinToString(", ")
+
+                    binding.badgeNew.isVisible = !it.date.hasDaysPassed(30)
                 }
+            }
+            holder.binding.root.setOnClickListener { view ->
+                val action = ProductListFragmentDirections.actionNavigationProductListToNavigationProductScreen(dataSet[position].id.toInt())
+                view.findNavController().navigate(action)
             }
         }
 

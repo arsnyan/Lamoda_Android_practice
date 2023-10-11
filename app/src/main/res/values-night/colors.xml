@@ -2,4 +2,5 @@
 <resources>
     <color name="bottomnavbar_unchecked">@color/gray_600</color>
     <color name="bottomnavbar_checked">@color/white</color>
+    <color name="disabled">@color/gray_600</color>
 </resources>

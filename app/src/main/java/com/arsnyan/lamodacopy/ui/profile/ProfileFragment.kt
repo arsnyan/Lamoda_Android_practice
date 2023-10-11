@@ -40,9 +40,6 @@ class ProfileFragment : Fragment() {
         binding.cardviewUserDiscount.root.setOnClickListener {
             navController.navigate(R.id.action_navigation_profile_to_navigation_lamodaClubInfo)
         }
-        binding.cardviewReviewsQuestions.root.setOnClickListener {
-            navController.navigate(R.id.action_navigation_profile_to_navigation_product_screen)
-        }
     }
 
     override fun onDestroyView() {

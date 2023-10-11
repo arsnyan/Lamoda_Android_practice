@@ -36,6 +36,7 @@ data class Size(
 interface SizeRepository {
     suspend fun getSizes(): List<SizeDto>
     suspend fun getSize(id: Int): SizeDto
+    suspend fun getSizesByIdList(ids: List<Int>): List<Size>
 }
 
 class SizeRepositoryImpl @Inject constructor(private val postgrest: Postgrest) : SizeRepository {
@@ -48,6 +49,16 @@ class SizeRepositoryImpl @Inject constructor(private val postgrest: Postgrest) :
     override suspend fun getSize(id: Int): SizeDto {
         return withContext(Dispatchers.IO) {
             postgrest["sizes"].select { eq("id", id) }.decodeSingle()
+        }
+    }
+
+    override suspend fun getSizesByIdList(ids: List<Int>): List<Size> {
+        val list = mutableListOf<Size>()
+        return withContext(Dispatchers.IO) {
+            for (id in ids) {
+                list.add(postgrest["sizes"].select { eq("id", id) }.decodeSingle<SizeDto>().asDomainModel())
+            }
+            list
         }
     }
 }

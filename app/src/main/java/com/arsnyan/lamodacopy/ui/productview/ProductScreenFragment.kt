@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.floor
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProductScreenFragment : Fragment() {
@@ -20,7 +21,6 @@ class ProductScreenFragment : Fragment() {
         fun newInstance() = ProductScreenFragment()
     }
 
-    private lateinit var viewModel: ProductScreenViewModel
     private var _binding: FragmentProductScreenBinding? = null
     private val binding get() = _binding!!
 
@@ -34,29 +34,55 @@ class ProductScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProductScreenViewModel::class.java]
+        val viewModel: ProductScreenViewModel by viewModels()
 
-        binding.preDiscountPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        lifecycleScope.launch {
+            viewModel.product.collect {product ->
+                binding.productBrand.text = product?.brand?.name
+                binding.productCategory.text = product?.category?.name
+                binding.preDiscountPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
-        val preDiscountPrice = Integer.parseInt(binding.preDiscountPrice.text.toString())
-        val currentPrice = Integer.parseInt(binding.currentPrice.text.toString())
-        val lamodaDiscount = 799
-        val lamodaClubDiscount = 0
-        val discountSize = 100 - floor(((currentPrice * 100) / preDiscountPrice).toDouble()).toInt()
+                val preDiscountPrice = product?.originalPrice
+                val currentPrice = product?.currentPrice
 
-        if (preDiscountPrice > currentPrice) {
-            binding.preDiscountPrice.visibility = View.VISIBLE
-            binding.currentPrice.apply {
-                setTextColor(resources.getColor(R.color.branded_flame, resources.newTheme()))
+                if (preDiscountPrice != null && currentPrice != null) {
+                    binding.preDiscountPrice.text = preDiscountPrice.toString()
+                    binding.currentPrice.text = currentPrice.toString()
+
+                    if (preDiscountPrice > currentPrice) {
+                        binding.preDiscountPrice.apply {
+                            visibility = View.VISIBLE
+                        }
+                        binding.currentPrice.apply {
+                            setTextColor(resources.getColor(R.color.branded_flame, resources.newTheme()))
+                        }
+                    } else {
+                        binding.preDiscountPrice.visibility = View.GONE
+                        binding.discountSize.visibility = View.GONE
+                    }
+
+                    val discountSize = (currentPrice * 100) / preDiscountPrice
+                    binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
+                }
+
+                if (product != null && product.availableItems > 0) {
+                    binding.btnAddToCart.text =
+                        resources.getString(R.string.lbl_add_to_cart, product.availableItems)
+                } else {
+                    binding.btnAddToCart.apply {
+                        isFocusable = false
+                        isClickable = false
+                        setBackgroundColor(resources.getColor(R.color.disabled, resources.newTheme()))
+                        text = resources.getString(R.string.lbl_out_of_stock)
+                    }
+                }
             }
-        } else {
-            binding.preDiscountPrice.visibility = View.GONE
-            binding.discountSize.visibility = View.GONE
         }
+
 
         val description = """
                 id
-                RTL12312912JDAS
+                vendor_id...
                 size
                 48 UK
                 color
@@ -66,8 +92,6 @@ class ProductScreenFragment : Fragment() {
             """.trimIndent()
 
         binding.additionalDesc.text = description
-
-        binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
 
         binding.btnExpandDesc.setOnClickListener {
             if (binding.additionalDesc.visibility == View.GONE) {

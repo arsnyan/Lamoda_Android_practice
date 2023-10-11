@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_home">Главная</string>
+    <string name="application_name">Копия Lamoda</string>
     <string name="title_catalog">Каталог</string>
     <string name="title_cart">Корзина</string>
     <string name="title_favourites">Избранное</string>
@@ -36,4 +37,20 @@
     <string name="label_ask_a_question">Задать вопрос</string>
     <string name="label_btn_earning_history"><u>История начислений</u></string>
     <string name="lbl_version">Версия %1$s</string>
+    <string name="lbl_add_to_cart">Добавить в корзину\n%1$d шт. осталось</string>
+    <string name="lbl_out_of_stock">Нет в наличии</string>
+    <string name="lbl_lamoda_discount">Скидка Lamoda</string>
+    <string name="lbl_lamoda_club_discount">Скидка Lamoda Club</string>
+    <string name="lbl_size_table">Таблица размеров</string>
+    <string name="lbl_other_colors">В других цветах</string>
+    <string name="lbl_mark_favourite">В избранное</string>
+    <string name="lbl_share">Поделиться</string>
+    <string name="lbl_about_product">О товаре</string>
+    <string name="lbl_similar">Похожие</string>
+    <string name="chip_lbl_of_this_brand">от этого бренда</string>
+    <string name="chip_lbl_visually">внешне</string>
+    <string name="chip_lbl_of_this_color">этого цвета</string>
+    <string name="lbl_people_buy_this_with">Другие также покупают…</string>
+    <string name="lbl_recently_seen">Недавно просмотренные</string>
+    <string name="lbl_need_help">Нужна помощь?</string>
 </resources>
