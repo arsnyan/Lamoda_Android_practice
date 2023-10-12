@@ -76,6 +76,8 @@ class ProductListFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(holder) {
                 dataSet[position].let {
+                    if (it.availableItems == 0)
+                        binding.root.alpha = 0.75f
                     binding.imageCarousel.adapter = ViewPagerAdapter(it.urls)
                     binding.originalPrice.text = it.originalPrice.toString()
                     binding.currentPrice.text = context.getString(R.string.lbl_formatted_price, it.currentPrice)

@@ -56,4 +56,42 @@
     <string name="lbl_recently_seen">Recently seen</string>
     <string name="lbl_need_help">Need help?</string>
     <string name="dotted_line" translatable="false">................................................................................................</string>
+    <string name="lbl_waist">waist: %1$s</string>
+    <string name="lbl_bust">bust: %1$s</string>
+    <string name="lbl_feet">feet length: %1$s</string>
+    <string name="lbl_hips">hips: %1$s</string>
+
+    <string name="pattern_geometric">Geometric</string>
+    <string name="pattern_dotted">dotted</string>
+    <string name="pattern_other">Other</string>
+    <string name="pattern_animalistic">Animalistic</string>
+    <string name="pattern_camo">Camo</string>
+    <string name="pattern_checker">Checker</string>
+    <string name="pattern_leopard">Leopard</string>
+    <string name="pattern_plain">Plain</string>
+    <string name="pattern_stripped">Stripped</string>
+    <string name="pattern_art">Art</string>
+    <string name="pattern_florist">Florist</string>
+
+    <string name="color_white">White</string>
+    <string name="color_black">Black</string>
+    <string name="color_gray">Gray</string>
+    <string name="color_silver">Silver</string>
+    <string name="color_beige">Beige</string>
+    <string name="color_red">Red</string>
+    <string name="color_coral">Coral</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_orange">Orange</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_green">Green</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_light_blue">Light blue</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_violet">Violet</string>
+    <string name="color_fuchsia">Fuchsia</string>
+    <string name="color_dark_red">Dark red</string>
+    <string name="color_brown">Brown</string>
+    <string name="color_mutlicolor">Multicolor</string>
+
+    <string name="additional_description">Vendor ID: %1$s\nColor: %2$s\nPattern: %3$s</string>
 </resources>

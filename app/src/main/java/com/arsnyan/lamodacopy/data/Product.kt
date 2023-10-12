@@ -21,7 +21,8 @@ data class ProductDto(
 data class Product(
     val id: Long, val brand: Brand?, val category: Category?,
     val urls: List<String>, var currentPrice: Int, var originalPrice: Int,
-    val applyClubDiscount: Boolean, var sizes: List<Size>, var availableItems: Int, var date: Date
+    val applyClubDiscount: Boolean, var sizes: List<Size>, var availableItems: Int, var date: Date,
+    var color: Color, var pattern: Pattern, var vendorId: String?
 )
 
 interface ProductRepository {

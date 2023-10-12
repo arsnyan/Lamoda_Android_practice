@@ -11,7 +11,8 @@ import javax.inject.Inject
 data class SizeDto(
     @SerialName("id") val id: Int, @SerialName("size_ru") val sizeRu: Int?, @SerialName("size_int") val sizeInt: String?,
     @SerialName("bust") val bust: String?, @SerialName("waist") val waist: String?, @SerialName("hips") val hips: String?,
-    @SerialName("size_eu") val sizeEu: Int?, @SerialName("size_uk") val sizeUk: Int?, @SerialName("size_us") val sizeUs: Int?
+    @SerialName("feet_length") val feetLength: Float?, @SerialName("size_eu") val sizeEu: Int?,
+    @SerialName("size_uk") val sizeUk: Int?, @SerialName("size_us") val sizeUs: Int?
 ) {
     fun asDomainModel(): Size {
         return Size(
@@ -21,6 +22,7 @@ data class SizeDto(
             bust = this.bust,
             waist = this.waist,
             hips = this.hips,
+            feetLength = this.feetLength,
             sizeEu = this.sizeEu,
             sizeUk = this.sizeUk,
             sizeUs = this.sizeUs
@@ -30,7 +32,7 @@ data class SizeDto(
 
 data class Size(
     val id: Int, val sizeRu: Int?, val sizeInt: String?, val bust: String?, val waist: String?, val hips: String?,
-    val sizeEu: Int?, val sizeUk: Int?, val sizeUs: Int?
+    val feetLength: Float?, val sizeEu: Int?, val sizeUk: Int?, val sizeUs: Int?
 )
 
 interface SizeRepository {

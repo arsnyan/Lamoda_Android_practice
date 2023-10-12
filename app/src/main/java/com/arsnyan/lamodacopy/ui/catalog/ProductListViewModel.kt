@@ -55,7 +55,10 @@ class ProductListViewModel @Inject constructor(
             applyClubDiscount = this.applyClubDiscount,
             sizes = sizeRepository.getSizesByIdList(this.sizes),
             availableItems = this.availableItems,
-            date = SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(this.date)
+            date = SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(this.date),
+            color = this.color,
+            pattern = this.pattern,
+            vendorId = this.vendorId
         )
     }
 }

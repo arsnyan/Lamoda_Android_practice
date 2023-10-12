@@ -2,37 +2,30 @@ package com.arsnyan.lamodacopy.ui.productview
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.text.Html
+import android.text.Spannable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.LinearLayoutCompat.HORIZONTAL
-import androidx.appcompat.widget.LinearLayoutCompat.OrientationMode
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.setPadding
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
 import androidx.transition.TransitionManager
-import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
-import androidx.viewpager2.widget.ViewPager2.PageTransformer
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
 import com.arsnyan.lamodacopy.ui.recyclerview.ImageCarouselMultipleShowAdapter
-import com.google.android.material.carousel.CarouselLayoutManager
-import com.google.android.material.carousel.CarouselSnapHelper
-import com.google.android.material.carousel.CarouselStrategy
-import com.google.android.material.carousel.HeroCarouselStrategy
+import com.arsnyan.lamodacopy.ui.recyclerview.MarginItemDecoration
+import com.arsnyan.lamodacopy.ui.recyclerview.SizeSelectorAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 @AndroidEntryPoint
 class ProductScreenFragment : Fragment() {
@@ -54,6 +47,8 @@ class ProductScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewModel: ProductScreenViewModel by viewModels()
+
+        binding.btnClose.setOnClickListener { findNavController().navigateUp() }
 
         lifecycleScope.launch {
             viewModel.product.collect {product ->
@@ -114,24 +109,62 @@ class ProductScreenFragment : Fragment() {
 
                     val snapHelper = PagerSnapHelper()
                     snapHelper.attachToRecyclerView(binding.productCarousel)
-                }
 
+                    val sizesAdapter = SizeSelectorAdapter(product.sizes, viewModel)
+                    binding.sizeSelector.apply {
+                        adapter = sizesAdapter
+                        val manager = LinearLayoutManager(context)
+                        manager.orientation = RecyclerView.HORIZONTAL
+                        addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.dimen_grid_margin_step)))
+                        layoutManager = manager
+                    }
+                    viewModel.selectedSizeItem.observe(viewLifecycleOwner) { itemId ->
+                        Log.d("ITEM", itemId.toString())
+                        if (itemId != -1) {
+                            val selectedSize = product.sizes[sizesAdapter.getSelectedItem()]
+                            binding.sizeDescription.apply {
+                                val attributesList = mutableListOf<String>()
+                                with(selectedSize) {
+                                    if (hips != null)
+                                        attributesList += resources.getString(
+                                            R.string.lbl_hips,
+                                            hips
+                                        )
+                                    if (waist != null)
+                                        attributesList += resources.getString(
+                                            R.string.lbl_waist,
+                                            waist
+                                        )
+                                    if (bust != null)
+                                        attributesList += resources.getString(
+                                            R.string.lbl_bust,
+                                            bust
+                                        )
+                                    if (feetLength != null)
+                                        attributesList += resources.getString(
+                                            R.string.lbl_feet,
+                                            feetLength.toString()
+                                        )
+                                }
+                                text = attributesList.joinToString(", ")
+                                    .replaceFirstChar { it.uppercase() }
+                                isVisible = true
+                                TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
+                            }
+                        } else {
+                            binding.sizeDescription.isVisible = false
+                        }
+                    }
+
+                    binding.additionalDesc.text = resources.getString(
+                        R.string.additional_description,
+                        product.vendorId,
+                        resources.getString(product.color.stringId),
+                        resources.getString(product.pattern.resId)
+                    )
+                }
             }
         }
-
-
-        val description = """
-                id
-                vendor_id...
-                size
-                48 UK
-                color
-                Black
-                Shape
-                Simple
-            """.trimIndent()
-
-        binding.additionalDesc.text = description
 
         binding.btnExpandDesc.setOnClickListener {
             if (binding.additionalDesc.visibility == View.GONE) {

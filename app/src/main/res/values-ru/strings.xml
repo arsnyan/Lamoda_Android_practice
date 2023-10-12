@@ -53,4 +53,42 @@
     <string name="lbl_people_buy_this_with">Другие также покупают…</string>
     <string name="lbl_recently_seen">Недавно просмотренные</string>
     <string name="lbl_need_help">Нужна помощь?</string>
+    <string name="lbl_hips">обхват бёдер: %1$s</string>
+    <string name="lbl_waist">обхват талии: %1$s</string>
+    <string name="lbl_bust">обхват груди: %1$s</string>
+    <string name="lbl_feet">длина стопы: %1$s</string>
+
+    <string name="pattern_geometric">Геометрический</string>
+    <string name="pattern_dotted">Горошек</string>
+    <string name="pattern_other">Другие</string>
+    <string name="pattern_animalistic">Животные</string>
+    <string name="pattern_camo">Хаки</string>
+    <string name="pattern_checker">Шахматный</string>
+    <string name="pattern_leopard">Леопардовый</string>
+    <string name="pattern_plain">Однотонный</string>
+    <string name="pattern_stripped">Полоски</string>
+    <string name="pattern_art">Рисунки и текст</string>
+    <string name="pattern_florist">Цветочный</string>
+
+    <string name="color_white">Белый</string>
+    <string name="color_black">Чёрный</string>
+    <string name="color_gray">Серый</string>
+    <string name="color_silver">Серебрянный</string>
+    <string name="color_beige">Бежевый</string>
+    <string name="color_red">Красный</string>
+    <string name="color_coral">Коралловый</string>
+    <string name="color_pink">Розовый</string>
+    <string name="color_orange">Оранжевый</string>
+    <string name="color_yellow">Жёлтый</string>
+    <string name="color_green">Зелёный</string>
+    <string name="color_cyan">Бирюзовый</string>
+    <string name="color_light_blue">Голубой</string>
+    <string name="color_blue">Синий</string>
+    <string name="color_violet">Фиолетовый</string>
+    <string name="color_fuchsia">Фуксия</string>
+    <string name="color_dark_red">Бордовый</string>
+    <string name="color_brown">Коричневый</string>
+    <string name="color_mutlicolor">Мультиколор</string>
+
+    <string name="additional_description">Артикул: %1$s\nЦвет: %2$s\nУзор: %3$s</string>
 </resources>

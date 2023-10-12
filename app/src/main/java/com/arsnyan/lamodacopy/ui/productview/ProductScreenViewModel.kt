@@ -2,6 +2,7 @@ package com.arsnyan.lamodacopy.ui.productview
 
 import android.icu.text.SimpleDateFormat
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,10 +30,16 @@ class ProductScreenViewModel @Inject constructor(
     private val _product = MutableStateFlow<Product?>(null)
     val product: Flow<Product?> = _product
 
+    val selectedSizeItem = MutableLiveData<Int>(-1)
+
     init {
         savedStateHandle.get<Int>("product_id")?.let {id ->
             getProduct(id = id)
         }
+    }
+
+    fun selectItem(itemId: Int) {
+        selectedSizeItem.value = itemId
     }
 
     private fun getProduct(id: Int) {
@@ -56,7 +63,10 @@ class ProductScreenViewModel @Inject constructor(
             applyClubDiscount = this.applyClubDiscount,
             sizes = sizeRepository.getSizesByIdList(this.sizes),
             availableItems = this.availableItems,
-            date = SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(this.date)
+            date = SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(this.date),
+            color = this.color,
+            pattern = this.pattern,
+            vendorId = this.vendorId
         )
     }
 }

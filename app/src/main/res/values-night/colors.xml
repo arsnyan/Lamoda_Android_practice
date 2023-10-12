@@ -3,4 +3,21 @@
     <color name="bottomnavbar_unchecked">@color/gray_600</color>
     <color name="bottomnavbar_checked">@color/white</color>
     <color name="disabled">@color/gray_600</color>
+
+    <color name="gray">#404040</color> <!-- dark gray -->
+    <color name="silver">#707070</color> <!-- dark silver -->
+    <color name="beige">#706550</color> <!-- dark beige -->
+    <color name="red">#800000</color> <!-- dark red -->
+    <color name="coral">#804020</color> <!-- dark coral -->
+    <color name="pink">#FF8080</color> <!-- muted pink -->
+    <color name="orange">#804000</color> <!-- dark orange -->
+    <color name="yellow">#808000</color> <!-- dark yellow -->
+    <color name="green">#004000</color> <!-- dark green -->
+    <color name="cyan">#007070</color> <!-- dark cyan -->
+    <color name="light_blue">#406080</color> <!-- dark light blue -->
+    <color name="blue">#000080</color> <!-- dark blue -->
+    <color name="violet">#702070</color> <!-- dark violet -->
+    <color name="fuchsia">#800080</color> <!-- dark fuchsia -->
+    <color name="dark_red">#400000</color> <!-- very dark red -->
+    <color name="brown">#402000</color> <!-- dark brown -->
 </resources>
