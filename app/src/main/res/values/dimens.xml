@@ -6,4 +6,5 @@
     <dimen name="dimen_default_margin_half_step">8dp</dimen>
     <dimen name="dimen_grid_margin_step">4dp</dimen>
     <dimen name="dimen_grid_margin_half_step">2dp</dimen>
+    <dimen name="offset">64dp</dimen>
 </resources>

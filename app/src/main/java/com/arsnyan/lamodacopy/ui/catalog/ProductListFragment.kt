@@ -86,8 +86,8 @@ class ProductListFragment : Fragment() {
                         binding.currentPrice.apply {
                             setTextColor(resources.getColor(R.color.branded_flame, resources.newTheme()))
                         }
-                        val discount = (100 - ((it.currentPrice * 100)/it.originalPrice)).toString()
-                        binding.badgeDiscount.text = context.getString(R.string.lbl_discount_formatted, discount)
+                        val discount = 100 - ((it.currentPrice * 100)/it.originalPrice)
+                        binding.badgeDiscount.text = context.getString(R.string.discount_size_placeholder, discount)
                     } else {
                         binding.originalPrice.visibility = View.GONE
                         binding.badgeClubDiscount.visibility = View.GONE

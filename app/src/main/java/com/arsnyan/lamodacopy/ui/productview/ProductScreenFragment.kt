@@ -2,18 +2,37 @@ package com.arsnyan.lamodacopy.ui.productview
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.LinearLayoutCompat.HORIZONTAL
+import androidx.appcompat.widget.LinearLayoutCompat.OrientationMode
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import androidx.transition.TransitionManager
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
+import androidx.viewpager2.widget.ViewPager2.PageTransformer
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
+import com.arsnyan.lamodacopy.ui.recyclerview.ImageCarouselMultipleShowAdapter
+import com.google.android.material.carousel.CarouselLayoutManager
+import com.google.android.material.carousel.CarouselSnapHelper
+import com.google.android.material.carousel.CarouselStrategy
+import com.google.android.material.carousel.HeroCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class ProductScreenFragment : Fragment() {
@@ -38,14 +57,14 @@ class ProductScreenFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.product.collect {product ->
-                binding.productBrand.text = product?.brand?.name
-                binding.productCategory.text = product?.category?.name
-                binding.preDiscountPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                if (product != null) {
+                    binding.productBrand.text = product.brand?.name
+                    binding.productCategory.text = product.category?.name
+                    binding.preDiscountPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
-                val preDiscountPrice = product?.originalPrice
-                val currentPrice = product?.currentPrice
+                    val preDiscountPrice = product.originalPrice
+                    val currentPrice = product.currentPrice
 
-                if (preDiscountPrice != null && currentPrice != null) {
                     binding.preDiscountPrice.text = preDiscountPrice.toString()
                     binding.currentPrice.text = currentPrice.toString()
 
@@ -61,21 +80,42 @@ class ProductScreenFragment : Fragment() {
                         binding.discountSize.visibility = View.GONE
                     }
 
-                    val discountSize = (currentPrice * 100) / preDiscountPrice
+                    val discountSize = 100 - ((currentPrice * 100) / preDiscountPrice)
                     binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
+
+                    if (product.availableItems > 0) {
+                        binding.btnAddToCart.apply {
+                            text =
+                                resources.getString(R.string.lbl_add_to_cart, product.availableItems)
+                            isFocusable = true
+                            isClickable = true
+                            setBackgroundColor(
+                                resources.getColor(
+                                    R.color.black,
+                                    resources.newTheme()
+                                )
+                            )
+                        }
+                    } else {
+                        binding.btnAddToCart.apply {
+                            isFocusable = false
+                            isClickable = false
+                            setBackgroundColor(resources.getColor(R.color.disabled, resources.newTheme()))
+                            text = resources.getString(R.string.lbl_out_of_stock)
+                        }
+                    }
+
+                    binding.productCarousel.apply {
+                        adapter = ImageCarouselMultipleShowAdapter(product.urls)
+                        val manager = LinearLayoutManager(context)
+                        manager.orientation = RecyclerView.HORIZONTAL
+                        layoutManager = manager
+                    }
+
+                    val snapHelper = PagerSnapHelper()
+                    snapHelper.attachToRecyclerView(binding.productCarousel)
                 }
 
-                if (product != null && product.availableItems > 0) {
-                    binding.btnAddToCart.text =
-                        resources.getString(R.string.lbl_add_to_cart, product.availableItems)
-                } else {
-                    binding.btnAddToCart.apply {
-                        isFocusable = false
-                        isClickable = false
-                        setBackgroundColor(resources.getColor(R.color.disabled, resources.newTheme()))
-                        text = resources.getString(R.string.lbl_out_of_stock)
-                    }
-                }
             }
         }
 
