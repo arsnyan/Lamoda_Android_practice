@@ -9,7 +9,10 @@ import com.arsnyan.lamodacopy.data.Size
 import com.arsnyan.lamodacopy.databinding.SizeSelectorCardViewBinding
 import com.arsnyan.lamodacopy.ui.productview.ProductScreenViewModel
 
-class SizeSelectorAdapter(private val sizes: List<Size>, private val viewModel: ProductScreenViewModel) : RecyclerView.Adapter<SizeSelectorAdapter.ViewHolder>() {
+class SizeSelectorAdapter(
+    private val sizes: List<Size>,
+    private val viewModel: ProductScreenViewModel
+) : RecyclerView.Adapter<SizeSelectorAdapter.ViewHolder>() {
     private var selectedPos = RecyclerView.NO_POSITION
 
     inner class ViewHolder(val binding: SizeSelectorCardViewBinding) : RecyclerView.ViewHolder(binding.root) {

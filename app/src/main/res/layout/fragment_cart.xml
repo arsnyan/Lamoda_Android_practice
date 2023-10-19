@@ -32,6 +32,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
             <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Button.LamodaCopy.TextButton"
                 android:id="@+id/materialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,13 +128,11 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal">
         <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Button.LamodaCopy.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
             android:text="Place an order\n1 item priced 8 187 R"
-            android:padding="@dimen/dimen_default_margin_half_step"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            android:textAllCaps="false"/>
+            android:padding="@dimen/dimen_default_margin_half_step"/>
     </LinearLayout>
 </FrameLayout>

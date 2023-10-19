@@ -7,6 +7,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.Date
 import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.random.nextUInt
 
 @Serializable
 data class ProductDto(
@@ -26,8 +28,10 @@ data class Product(
 )
 
 interface ProductRepository {
-    suspend fun getProducts(): List<ProductDto>?
+    suspend fun getProducts(): List<ProductDto>
     suspend fun getProduct(id: Int): ProductDto
+
+    suspend fun getRandomProducts(): List<ProductDto>
 }
 
 class ProductRepositoryImpl @Inject constructor(private val postgrest: Postgrest) : ProductRepository {
@@ -42,6 +46,16 @@ class ProductRepositoryImpl @Inject constructor(private val postgrest: Postgrest
     override suspend fun getProduct(id: Int): ProductDto {
         return withContext(Dispatchers.IO) {
             postgrest["products"].select { eq("id", id) }.decodeSingle()
+        }
+    }
+
+    override suspend fun getRandomProducts(): List<ProductDto> {
+        return withContext(Dispatchers.IO) {
+            var randomNumber = Random.nextUInt(postgrest["products"].select().count()!!.toUInt())
+            postgrest["products"].select {
+                limit(30)
+                gt("id", randomNumber)
+            }.decodeList()
         }
     }
 }

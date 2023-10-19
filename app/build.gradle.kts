@@ -71,12 +71,16 @@ dependencies {
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
-//    val roomVersion = "2.5.2"
-//    implementation("androidx.room:room-runtime:$roomVersion")
-//    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-//    ksp("androidx.room:room-compiler:$roomVersion")
-//    implementation("androidx.room:room-ktx:$roomVersion")
-//    implementation("androidx.room:room-paging:$roomVersion")
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+
+    val roomVersion = "2.6.0"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-paging:$roomVersion")
 
     implementation("io.github.jan-tennert.supabase:postgrest-kt:1.4.0")
     implementation("io.ktor:ktor-client-android:2.3.5")

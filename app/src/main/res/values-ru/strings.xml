@@ -91,4 +91,7 @@
     <string name="color_mutlicolor">Мультиколор</string>
 
     <string name="additional_description">Артикул: %1$s\nЦвет: %2$s\nУзор: %3$s</string>
+    <string name="lbl_login">Вход</string>
+    <string name="lbl_registration">Регистрация</string>
+    <string name="lbl_get_verification_code">Получить код</string>
 </resources>

@@ -37,7 +37,7 @@ class ProductListViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             val products = productRepository.getProducts()
             Log.d("SOMEEEE", products.toString())
-            _productList.emit(products?.map { it.asDomainModel() })
+            _productList.emit(products.map { it.asDomainModel() })
         }
     }
 

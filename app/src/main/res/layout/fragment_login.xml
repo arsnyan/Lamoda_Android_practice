@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.google.android.material.tabs.TabLayout
+        style="@style/Theme.LamodaCopy.TabLayout"
+        android:id="@+id/tabs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabMode="scrollable"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_default_margin_step"
+        android:text="Use personal discounts and get gifts from our partners!"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

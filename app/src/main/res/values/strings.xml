@@ -94,4 +94,7 @@
     <string name="color_mutlicolor">Multicolor</string>
 
     <string name="additional_description">Vendor ID: %1$s\nColor: %2$s\nPattern: %3$s</string>
+    <string name="lbl_login">Sign in</string>
+    <string name="lbl_registration">Sign up</string>
+    <string name="lbl_get_verification_code">Get verification code</string>
 </resources>
