@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -18,6 +19,7 @@ import com.arsnyan.lamodacopy.databinding.FragmentLoginBinding
 import com.arsnyan.lamodacopy.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import io.ktor.utils.io.concurrent.shared
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -39,7 +41,7 @@ class ProfileFragment : Fragment() {
         return if (sharedViewModel.isUserAnonymous()) {
             _loginBinding = FragmentLoginBinding.inflate(layoutInflater, container, false)
 
-            val tabTitles = arrayOf<Int>(R.string.lbl_login, R.string.lbl_registration)
+            val tabTitles = arrayOf(R.string.lbl_login, R.string.lbl_registration)
             loginBinding.pager.adapter = LoginPagerAdapter(this)
             TabLayoutMediator(loginBinding.tabs, loginBinding.pager) { tab, position ->
                 tab.text = resources.getString(tabTitles[position])
@@ -77,7 +79,7 @@ class ProfileFragment : Fragment() {
             return if (position == 0) {
                 SignInPagerFragment()
             } else {
-                SignUpPagerFragment()
+                SignUpPagerFragment(sharedViewModel)
             }
         }
     }

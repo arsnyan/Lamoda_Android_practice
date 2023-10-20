@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_default_margin_step"
-        android:text="Use personal discounts and get gifts from our partners!"
+        android:text="@string/txt_ad_offerings_sing_up"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
 
     <androidx.viewpager2.widget.ViewPager2

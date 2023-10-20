@@ -21,7 +21,7 @@
         <item name="rippleColor">@color/gray_400</item>
     </style>
 
-    <style name="Widget.Button.LamodaCopy.TextButton" parent="Widget.Material3.Button.UnelevatedButton">
+    <style name="Widget.Button.LamodaCopy.TextButton" parent="Widget.Material3.Button.ElevatedButton">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraSmall</item>
         <item name="android:textSize">14sp</item>
         <item name="textAllCaps">false</item>
@@ -79,5 +79,18 @@
         <item name="tabTextColor">?colorOnPrimary</item>
         <item name="tabTextAppearance">@style/Theme.LamodaCopy.TabTextAppearance</item>
         <item name="tabIndicatorColor">?colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.TextField.LamodaCopy.All" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="cursorColor">@color/gray_600</item>
+        <item name="hintTextColor">@color/gray_600</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+
+    <style name="Widget.CheckBox.LamodaCopy.All" parent="Widget.Material3.CompoundButton.CheckBox">
+        android:buttonTint="@color/black"
+        app:buttonIconTint="@color/white"
+        <item name="buttonTint">@color/black</item>
+        <item name="buttonIconTint">@color/white</item>
     </style>
 </resources>

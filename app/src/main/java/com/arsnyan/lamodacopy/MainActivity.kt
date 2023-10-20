@@ -55,5 +55,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         viewModel.setUser(auth.currentUser)
+        viewModel.firebaseAuth = auth
     }
 }

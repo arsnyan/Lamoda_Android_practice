@@ -97,4 +97,13 @@
     <string name="lbl_login">Sign in</string>
     <string name="lbl_registration">Sign up</string>
     <string name="lbl_get_verification_code">Get verification code</string>
+    <string name="enter_name">Enter name*</string>
+    <string name="enter_email">Enter e-mail*</string>
+    <string name="lbl_news_checkbox">Get to know about new products and offers</string>
+    <string name="txt_account_new_disclamer">Clicking on make account you are agreeing to our terms of service</string>
+    <string name="lbl_create_an_account">Create an account</string>
+    <string name="lbl_phone_number_or_e_mail">Phone number or e-mail</string>
+    <string name="txt_ad_offerings_sing_up">Use personal discounts and get gifts from our partners!</string>
+    <string name="lbl_sign_in_socials">Sign in using socials</string>
+    <string name="lbl_password">Password</string>
 </resources>

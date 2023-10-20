@@ -22,7 +22,7 @@
         <item name="rippleColor">@color/lighter_black</item>
     </style>
 
-    <style name="Widget.Button.LamodaCopy.TextButton" parent="Widget.Material3.Button.UnelevatedButton">
+    <style name="Widget.Button.LamodaCopy.TextButton" parent="Widget.Material3.Button.ElevatedButton">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.ExtraSmall</item>
         <item name="android:textSize">14sp</item>
         <item name="textAllCaps">false</item>
@@ -44,5 +44,15 @@
         <item name="iconTint">@color/white</item>
         <item name="iconGravity">end</item>
         <item name="rippleColor">@color/lighter_black</item>
+    </style>
+
+    <style name="Widget.TextField.LamodaCopy.All" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="cursorColor">@color/gray_400</item>
+        <item name="hintTextColor">@color/gray_400</item>
+    </style>
+
+    <style name="Widget.CheckBox.LamodaCopy.All" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/gray_200</item>
+        <item name="buttonIconTint">@color/lighter_black</item>
     </style>
 </resources>

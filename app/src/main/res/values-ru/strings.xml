@@ -90,8 +90,18 @@
     <string name="color_brown">Коричневый</string>
     <string name="color_mutlicolor">Мультиколор</string>
 
+    <string name="lbl_get_verification_code">Получить код</string>
     <string name="additional_description">Артикул: %1$s\nЦвет: %2$s\nУзор: %3$s</string>
+
     <string name="lbl_login">Вход</string>
     <string name="lbl_registration">Регистрация</string>
-    <string name="lbl_get_verification_code">Получить код</string>
+    <string name="enter_name">Имя*</string>
+    <string name="enter_email">E-mail*</string>
+    <string name="lbl_password">Пароль*</string>
+    <string name="lbl_news_checkbox">Получать уведомления о новинках и акциях</string>
+    <string name="txt_account_new_disclamer">Нажав на кнопку «Создать аккаунт», вы соглашаетесь с <u>публичной офертой</u></string>
+    <string name="lbl_create_an_account">Создать аккаунт</string>
+    <string name="lbl_phone_number_or_e_mail">Номер телефона или e-mail</string>
+    <string name="txt_ad_offerings_sing_up">Пользуйтесь персональными скидками и получайте подарки от наших партнёров!</string>
+    <string name="lbl_sign_in_socials">Войти через <u>соцсети</u></string>
 </resources>
