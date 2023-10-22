@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -23,6 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -40,15 +43,23 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_catalog, R.id.navigation_cart, R.id.navigation_favourites, R.id.navigation_profile
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
+        lifecycleScope.launch {
+            viewModel.user.collect { user ->
+                navView.menu.clear()
+                navView.inflateMenu(if (user == null) R.menu.bottom_nav_login_menu else R.menu.bottom_nav_menu)
+
+                // Passing each menu ID as a set of Ids because each
+                // menu should be considered as top level destinations.
+                val appBarConfiguration = AppBarConfiguration(
+                    setOf(
+                        R.id.navigation_home, R.id.navigation_catalog, R.id.navigation_cart, R.id.navigation_favourites, if (user == null) R.id.navigation_login else R.id.navigation_profile
+                    )
+                )
+                setupActionBarWithNavController(navController, appBarConfiguration)
+                navView.setupWithNavController(navController)
+            }
+        }
         supportActionBar?.hide()
     }
 

@@ -65,4 +65,9 @@
                 app:argType="integer" />
         </action>
     </fragment>
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.arsnyan.lamodacopy.ui.profile.LoginFragment"
+        tools:layout="@layout/fragment_login" >
+    </fragment>
 </navigation>
