@@ -28,7 +28,7 @@ data class ProductVariation(
 
 interface ProductVariationRepository {
     suspend fun getVariation(id: Int): ProductVariation
-
+//
     suspend fun getVariationsByProduct(productId: Int): List<ProductVariation>
 }
 
