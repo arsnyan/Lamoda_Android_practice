@@ -19,12 +19,12 @@ data class CategoryDto(@SerialName("id") val id: Int, @SerialName("name") val na
 data class Category(val id: Int, val name: String, val gender: String)
 
 interface CategoryRepository {
-    suspend fun getCategories(): List<CategoryDto>
-    suspend fun getCategory(id: Int): CategoryDto
+    suspend fun getCategories(): List<Category>
+    suspend fun getCategory(id: Int): Category
 }
 
 class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgrest, @ApplicationContext private val context: Context) : CategoryRepository {
-    override suspend fun getCategories(): List<CategoryDto> {
+    override suspend fun getCategories(): List<Category> {
         return withContext(Dispatchers.IO) {
             if (context.resources.configuration.locales[0].language == "ru")
                 postgrest["categories_ru"].select().decodeList()
@@ -33,12 +33,13 @@ class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgres
         }
     }
 
-    override suspend fun getCategory(id: Int): CategoryDto {
+    override suspend fun getCategory(id: Int): Category {
         return withContext(Dispatchers.IO) {
-            if (context.resources.configuration.locales[0].language == "ru")
+            val dto: CategoryDto = if (context.resources.configuration.locales[0].language == "ru")
                 postgrest["categories_ru"].select { eq("id", id) }.decodeSingle()
             else
                 postgrest["categories"].select { eq("id", id) }.decodeSingle()
+            Category(dto.id, dto.name, dto.gender)
         }
     }
 }

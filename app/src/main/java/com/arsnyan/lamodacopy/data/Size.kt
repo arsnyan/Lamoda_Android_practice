@@ -14,20 +14,18 @@ data class SizeDto(
     @SerialName("feet_length") val feetLength: Float?, @SerialName("size_eu") val sizeEu: Int?,
     @SerialName("size_uk") val sizeUk: Int?, @SerialName("size_us") val sizeUs: Int?
 ) {
-    fun asDomainModel(): Size {
-        return Size(
-            id = this.id,
-            sizeRu = this.sizeRu,
-            sizeInt = this.sizeInt,
-            bust = this.bust,
-            waist = this.waist,
-            hips = this.hips,
-            feetLength = this.feetLength,
-            sizeEu = this.sizeEu,
-            sizeUk = this.sizeUk,
-            sizeUs = this.sizeUs
-        )
-    }
+    fun asDomainModel() = Size(
+        id = this.id,
+        sizeRu = this.sizeRu,
+        sizeInt = this.sizeInt,
+        bust = this.bust,
+        waist = this.waist,
+        hips = this.hips,
+        feetLength = this.feetLength,
+        sizeEu = this.sizeEu,
+        sizeUk = this.sizeUk,
+        sizeUs = this.sizeUs
+    )
 }
 
 data class Size(
@@ -36,21 +34,25 @@ data class Size(
 )
 
 interface SizeRepository {
-    suspend fun getSizes(): List<SizeDto>
-    suspend fun getSize(id: Int): SizeDto
+    suspend fun getSizes(): List<Size>
+    suspend fun getSize(id: Int): Size
     suspend fun getSizesByIdList(ids: List<Int>): List<Size>
 }
 
 class SizeRepositoryImpl @Inject constructor(private val postgrest: Postgrest) : SizeRepository {
-    override suspend fun getSizes(): List<SizeDto> {
+    override suspend fun getSizes(): List<Size> {
         return withContext(Dispatchers.IO) {
-            postgrest["sizes"].select().decodeList()
+            val dtos: List<SizeDto> = postgrest["sizes"].select().decodeList()
+            val finalList = mutableListOf<Size>()
+            dtos.forEach { dto -> finalList += dto.asDomainModel() }
+            finalList
         }
     }
 
-    override suspend fun getSize(id: Int): SizeDto {
+    override suspend fun getSize(id: Int): Size {
         return withContext(Dispatchers.IO) {
-            postgrest["sizes"].select { eq("id", id) }.decodeSingle()
+            val dto: SizeDto = postgrest["sizes"].select { eq("id", id) }.decodeSingle()
+            dto.asDomainModel()
         }
     }
 

@@ -1,9 +1,6 @@
 package com.arsnyan.lamodacopy.ui.productview
 
-import android.graphics.Paint
 import android.os.Bundle
-import android.text.Html
-import android.text.Spannable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +9,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,10 +16,13 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
+import com.arsnyan.lamodacopy.data.Size
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
 import com.arsnyan.lamodacopy.ui.recyclerview.ImageCarouselMultipleShowAdapter
 import com.arsnyan.lamodacopy.ui.recyclerview.MarginItemDecoration
 import com.arsnyan.lamodacopy.ui.recyclerview.SizeSelectorAdapter
+import com.arsnyan.lamodacopy.utils.ExtensionFunctions.interactive
+import com.arsnyan.lamodacopy.utils.ExtensionFunctions.setDiscountVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,117 +50,114 @@ class ProductScreenFragment : Fragment() {
         binding.btnClose.setOnClickListener { findNavController().navigateUp() }
 
         lifecycleScope.launch {
-            viewModel.product.collect {product ->
+            viewModel.product.collect { product ->
                 if (product != null) {
-                    binding.productBrand.text = product.brand?.name
-                    binding.productCategory.text = product.category?.name
-                    binding.preDiscountPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    viewModel.currentVariation.collect { variationId ->
 
-                    val preDiscountPrice = product.originalPrice
-                    val currentPrice = product.currentPrice
+                        binding.productBrand.text = product.brand.name
+                        binding.productCategory.text = product.category.name
 
-                    binding.preDiscountPrice.text = preDiscountPrice.toString()
-                    binding.currentPrice.text = currentPrice.toString()
+                        product.setDiscountVisibility(
+                            requireActivity(), binding.originalPrice, binding.currentPrice,
+                            binding.badgeDiscount
+                        )
 
-                    if (preDiscountPrice > currentPrice) {
-                        binding.preDiscountPrice.apply {
-                            visibility = View.VISIBLE
-                        }
-                        binding.currentPrice.apply {
-                            setTextColor(resources.getColor(R.color.branded_flame, resources.newTheme()))
-                        }
-                    } else {
-                        binding.preDiscountPrice.visibility = View.GONE
-                        binding.discountSize.visibility = View.GONE
-                    }
-
-                    val discountSize = 100 - ((currentPrice * 100) / preDiscountPrice)
-                    binding.discountSize.text = resources.getString(R.string.discount_size_placeholder, discountSize)
-
-                    if (product.availableItems > 0) {
-                        binding.btnAddToCart.apply {
-                            text =
-                                resources.getString(R.string.lbl_add_to_cart, product.availableItems)
-                            isFocusable = true
-                            isClickable = true
-                            setBackgroundColor(
-                                resources.getColor(
-                                    R.color.black,
-                                    resources.newTheme()
+                        if (product.variations[variationId].stock > 0) {
+                            binding.btnAddToCart.apply {
+                                text =
+                                    resources.getString(
+                                        R.string.lbl_add_to_cart,
+                                        product.variations[variationId].stock
+                                    )
+                                interactive(true)
+                                setBackgroundColor(
+                                    resources.getColor(
+                                        R.color.black,
+                                        resources.newTheme()
+                                    )
                                 )
-                            )
-                        }
-                    } else {
-                        binding.btnAddToCart.apply {
-                            isFocusable = false
-                            isClickable = false
-                            setBackgroundColor(resources.getColor(R.color.disabled, resources.newTheme()))
-                            text = resources.getString(R.string.lbl_out_of_stock)
-                        }
-                    }
-
-                    binding.productCarousel.apply {
-                        adapter = ImageCarouselMultipleShowAdapter(product.urls)
-                        val manager = LinearLayoutManager(context)
-                        manager.orientation = RecyclerView.HORIZONTAL
-                        layoutManager = manager
-                    }
-
-                    val snapHelper = PagerSnapHelper()
-                    snapHelper.attachToRecyclerView(binding.productCarousel)
-
-                    val sizesAdapter = SizeSelectorAdapter(product.sizes, viewModel)
-                    binding.sizeSelector.apply {
-                        adapter = sizesAdapter
-                        val manager = LinearLayoutManager(context)
-                        manager.orientation = RecyclerView.HORIZONTAL
-                        addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.dimen_grid_margin_step)))
-                        layoutManager = manager
-                    }
-                    viewModel.selectedSizeItem.observe(viewLifecycleOwner) { itemId ->
-                        Log.d("ITEM", itemId.toString())
-                        if (itemId != -1) {
-                            val selectedSize = product.sizes[sizesAdapter.getSelectedItem()]
-                            binding.sizeDescription.apply {
-                                val attributesList = mutableListOf<String>()
-                                with(selectedSize) {
-                                    if (hips != null)
-                                        attributesList += resources.getString(
-                                            R.string.lbl_hips,
-                                            hips
-                                        )
-                                    if (waist != null)
-                                        attributesList += resources.getString(
-                                            R.string.lbl_waist,
-                                            waist
-                                        )
-                                    if (bust != null)
-                                        attributesList += resources.getString(
-                                            R.string.lbl_bust,
-                                            bust
-                                        )
-                                    if (feetLength != null)
-                                        attributesList += resources.getString(
-                                            R.string.lbl_feet,
-                                            feetLength.toString()
-                                        )
-                                }
-                                text = attributesList.joinToString(", ")
-                                    .replaceFirstChar { it.uppercase() }
-                                isVisible = true
-                                TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
                             }
                         } else {
-                            binding.sizeDescription.isVisible = false
+                            binding.btnAddToCart.apply {
+                                interactive(false)
+                                setBackgroundColor(
+                                    resources.getColor(
+                                        R.color.disabled,
+                                        resources.newTheme()
+                                    )
+                                )
+                                text = resources.getString(R.string.lbl_out_of_stock)
+                            }
                         }
-                    }
 
-                    binding.additionalDesc.text = resources.getString(
-                        R.string.additional_description,
-                        product.vendorId,
-                        resources.getString(product.color.stringId),
-                        resources.getString(product.pattern.resId)
-                    )
+                        binding.productCarousel.apply {
+                            adapter = ImageCarouselMultipleShowAdapter(product.variations[variationId].urls)
+                            val manager = LinearLayoutManager(context)
+                            manager.orientation = RecyclerView.HORIZONTAL
+                            layoutManager = manager
+                        }
+
+                        val snapHelper = PagerSnapHelper()
+                        snapHelper.attachToRecyclerView(binding.productCarousel)
+
+                        // TODO (Check if the values are right for size selector)
+                        val sizesByColor = product.variations.filter {
+                            variations -> variations.color == product.variations[variationId].color
+                        }.map { list -> list.size }
+                        val sizesAdapter = SizeSelectorAdapter(sizesByColor, viewModel)
+                        binding.sizeSelector.apply {
+                            adapter = sizesAdapter
+                            val manager = LinearLayoutManager(context)
+                            manager.orientation = RecyclerView.HORIZONTAL
+                            addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.dimen_grid_margin_step)))
+                            layoutManager = manager
+                        }
+
+                        viewModel.selectedSizeItem.observe(viewLifecycleOwner) { itemId ->
+                            Log.d("ITEM", itemId.toString())
+                            if (itemId != -1) {
+                                val selectedSize = product.variations[variationId].size
+                                binding.sizeDescription.apply {
+                                    val attributesList = mutableListOf<String>()
+                                    with(selectedSize) {
+                                        if (hips != null)
+                                            attributesList += resources.getString(
+                                                R.string.lbl_hips,
+                                                hips
+                                            )
+                                        if (waist != null)
+                                            attributesList += resources.getString(
+                                                R.string.lbl_waist,
+                                                waist
+                                            )
+                                        if (bust != null)
+                                            attributesList += resources.getString(
+                                                R.string.lbl_bust,
+                                                bust
+                                            )
+                                        if (feetLength != null)
+                                            attributesList += resources.getString(
+                                                R.string.lbl_feet,
+                                                feetLength.toString()
+                                            )
+                                    }
+                                    text = attributesList.joinToString(", ")
+                                        .replaceFirstChar { it.uppercase() }
+                                    isVisible = true
+                                    TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
+                                }
+                            } else {
+                                binding.sizeDescription.isVisible = false
+                            }
+                        }
+
+                        binding.additionalDesc.text = resources.getString(
+                            R.string.additional_description,
+                            product.id.toString(),
+                            resources.getString(product.variations[variationId].color.stringId),
+                            resources.getString(product.variations[variationId].pattern.resId)
+                        )
+                    }
                 }
             }
         }

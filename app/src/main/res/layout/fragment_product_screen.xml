@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/product_category" />
 
             <TextView
-                android:id="@+id/pre_discount_price"
+                android:id="@+id/original_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_default_margin_step"
@@ -83,10 +83,10 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/expand_discount_options"
-                app:layout_constraintStart_toEndOf="@+id/pre_discount_price"/>
+                app:layout_constraintStart_toEndOf="@+id/original_price"/>
 
             <TextView
-                android:id="@+id/discount_size"
+                android:id="@+id/badge_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"

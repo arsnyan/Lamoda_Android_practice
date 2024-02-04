@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import coil.load
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.data.Product
+import com.arsnyan.lamodacopy.data.Size
 import com.arsnyan.lamodacopy.databinding.FragmentProductListBinding
 import com.arsnyan.lamodacopy.databinding.ImageSliderPagerBinding
 import com.arsnyan.lamodacopy.databinding.ProductCatalogCardViewBinding
-import com.arsnyan.lamodacopy.utils.hasDaysPassed
+import com.arsnyan.lamodacopy.utils.ExtensionFunctions.haveDaysPassed
+import com.arsnyan.lamodacopy.utils.ExtensionFunctions.setDiscountVisibility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -76,34 +78,27 @@ class ProductListFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(holder) {
                 dataSet[position].let {
-                    if (it.availableItems == 0)
+                    println(it)
+                    if (it.variations.maxOf { variations -> variations.stock } == 0)
                         binding.root.alpha = 0.75f
-                    binding.imageCarousel.adapter = ViewPagerAdapter(it.urls)
-                    binding.originalPrice.text = it.originalPrice.toString()
-                    binding.currentPrice.text = context.getString(R.string.lbl_formatted_price, it.currentPrice)
-                    if(it.originalPrice > it.currentPrice) {
-                        binding.originalPrice.apply {
-                            paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                        }
-                        binding.currentPrice.apply {
-                            setTextColor(resources.getColor(R.color.branded_flame, resources.newTheme()))
-                        }
-                        val discount = 100 - ((it.currentPrice * 100)/it.originalPrice)
-                        binding.badgeDiscount.text = context.getString(R.string.discount_size_placeholder, discount)
-                    } else {
-                        binding.originalPrice.visibility = View.GONE
-                        binding.badgeClubDiscount.visibility = View.GONE
-                        binding.badgeDiscount.visibility = View.GONE
-                    }
-                    binding.brand.text = it.brand?.name
-                    binding.category.text = it.category?.name
-                    binding.availableSizes.text = it.sizes.map { originalSizeObj -> originalSizeObj.sizeRu }.joinToString(", ")
+                    binding.imageCarousel.adapter = ViewPagerAdapter(it.variations[0].urls)
+                    it.setDiscountVisibility(context, binding.originalPrice, binding.currentPrice,
+                        binding.badgeDiscount, binding.badgeClubDiscount)
+                    binding.brand.text = it.brand.name
+                    binding.category.text = it.category.name
+                    val allSizes = mutableSetOf<Size>()
+                    it.variations.forEach { variations -> allSizes.add(variations.size) }
+                    binding.availableSizes.text = allSizes.map { originalSizeObj -> originalSizeObj.sizeRu }.joinToString(", ")
 
-                    binding.badgeNew.isVisible = !it.date.hasDaysPassed(30)
+                    binding.badgeNew.isVisible = !it.variations
+                        .maxBy { variation -> variation.createdAt }
+                        .createdAt
+                        .haveDaysPassed(30)
                 }
             }
             holder.binding.root.setOnClickListener { view ->
-                val action = ProductListFragmentDirections.actionNavigationProductListToNavigationProductScreen(dataSet[position].id.toInt())
+                val action = ProductListFragmentDirections
+                    .actionNavigationProductListToNavigationProductScreen(dataSet[position].id.toInt())
                 view.findNavController().navigate(action)
             }
         }

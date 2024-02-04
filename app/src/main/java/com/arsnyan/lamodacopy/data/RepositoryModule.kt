@@ -13,6 +13,9 @@ abstract class RepositoryModule {
     abstract fun bindProductRepository(impl: ProductRepositoryImpl): ProductRepository
 
     @Binds
+    abstract fun bindProductVariationsRepository(impl: ProductVariationRepositoryImpl): ProductVariationRepository
+
+    @Binds
     abstract fun bindBrandRepository(impl: BrandRepositoryImpl): BrandRepository
 
     @Binds
@@ -20,6 +23,4 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindCategoryRepository(impl: CategoryRepositoryImpl): CategoryRepository
-
-
 }
