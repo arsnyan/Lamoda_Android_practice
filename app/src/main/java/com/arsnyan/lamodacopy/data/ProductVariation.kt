@@ -7,8 +7,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 import javax.inject.Inject
-import kotlin.random.Random
-import kotlin.random.nextUInt
 
 @Serializable
 data class ProductVariationDto(
@@ -28,8 +26,8 @@ data class ProductVariation(
 
 interface ProductVariationRepository {
     suspend fun getVariation(id: Int): ProductVariation
-//
-    suspend fun getVariationsByProduct(productId: Int): List<ProductVariation>
+
+    suspend fun getVariationsByProduct(productId: Int, filters: Map<String, Any>? = null): List<ProductVariation>
 }
 
 class ProductVariationRepositoryImpl @Inject constructor(
@@ -55,15 +53,17 @@ class ProductVariationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getVariationsByProduct(productId: Int): List<ProductVariation> {
+    override suspend fun getVariationsByProduct(productId: Int, filters: Map<String, Any>?): List<ProductVariation> {
         return withContext(Dispatchers.IO) {
             println("GET VARIATION BY PRODUCT")
             val dtos: List<ProductVariationDto> = postgrest["product_variations"].select {
                 eq("product_id", productId)
+                filters?.forEach { (key, value) ->
+                    eq(key, value)
+                }
             }.decodeList()
-            val finalList = mutableListOf<ProductVariation>()
-            dtos.forEach { dto ->
-                finalList += ProductVariation(
+            dtos.map { dto ->
+                ProductVariation(
                     id = dto.id,
                     productId = dto.productId,
                     size = sizeRepository.getSize(dto.sizeId),
@@ -77,7 +77,6 @@ class ProductVariationRepositoryImpl @Inject constructor(
                     createdAt = ZonedDateTime.parse(dto.createdAt)
                 )
             }
-            finalList
         }
     }
 }

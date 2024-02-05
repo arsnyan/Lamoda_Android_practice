@@ -2,12 +2,9 @@ package com.arsnyan.lamodacopy.data
 
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.ZonedDateTime
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.random.nextUInt
@@ -24,10 +21,10 @@ data class Product(
 )
 
 interface ProductRepository {
-    suspend fun getProducts(): List<Product>
+    suspend fun getProducts(filters: Map<String, Any>? = null, filtersVariations: Map<String, Any>? = null): List<Product>
     suspend fun getProduct(id: Int): Product
 
-    suspend fun getRandomProducts(): List<Product>
+    suspend fun getRandomProducts(filters: Map<String, Any>? = null, filtersVariations: Map<String, Any>? = null): List<Product>
 }
 
 class ProductRepositoryImpl @Inject constructor(
@@ -36,10 +33,11 @@ class ProductRepositoryImpl @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val productVariationRepository: ProductVariationRepository
 ) : ProductRepository {
-    override suspend fun getProducts(): List<Product> {
+    override suspend fun getProducts(filters: Map<String, Any>?, filtersVariations: Map<String, Any>?): List<Product> {
         return withContext(Dispatchers.IO) {
             val dtos: List<ProductDto> = postgrest["products"].select {
                 limit(10)
+
             }.decodeList()
 
             dtos.map { dto ->
@@ -48,7 +46,7 @@ class ProductRepositoryImpl @Inject constructor(
                     brand = brandRepository.getBrand(dto.brand),
                     category = categoryRepository.getCategory(dto.category),
                     desc = dto.description,
-                    variations = productVariationRepository.getVariationsByProduct(dto.id)
+                    variations = productVariationRepository.getVariationsByProduct(dto.id, filtersVariations)
                 )
             }
         }
@@ -56,7 +54,9 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun getProduct(id: Int): Product {
         return withContext(Dispatchers.IO) {
-            val dto: ProductDto = postgrest["products"].select { eq("id", id) }.decodeSingle()
+            val dto: ProductDto = postgrest["products"].select {
+                eq("id", id)
+            }.decodeSingle()
 
             Product(
                 id = dto.id,
@@ -68,7 +68,7 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRandomProducts(): List<Product> {
+    override suspend fun getRandomProducts(filters: Map<String, Any>?, filtersVariations: Map<String, Any>?): List<Product> {
         return withContext(Dispatchers.IO) {
             val randomNumber = Random.nextUInt(postgrest["products"].select().count()!!.toUInt())
             val dtos: List<ProductDto> = postgrest["products"].select {
@@ -82,7 +82,7 @@ class ProductRepositoryImpl @Inject constructor(
                     brand = brandRepository.getBrand(dto.brand),
                     category = categoryRepository.getCategory(dto.category),
                     desc = dto.description,
-                    variations = productVariationRepository.getVariationsByProduct(dto.id)
+                    variations = productVariationRepository.getVariationsByProduct(dto.id, filtersVariations)
                 )
             }
         }
