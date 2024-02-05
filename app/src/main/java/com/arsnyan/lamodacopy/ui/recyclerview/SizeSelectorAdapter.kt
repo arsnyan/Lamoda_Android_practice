@@ -5,12 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arsnyan.lamodacopy.data.Size
+import com.arsnyan.lamodacopy.data.ProductVariation
 import com.arsnyan.lamodacopy.databinding.SizeSelectorCardViewBinding
 import com.arsnyan.lamodacopy.ui.productview.ProductScreenViewModel
 
 class SizeSelectorAdapter(
-    private val sizes: List<Size>,
+    private val variation: List<ProductVariation>,
     private val viewModel: ProductScreenViewModel
 ) : RecyclerView.Adapter<SizeSelectorAdapter.ViewHolder>() {
     private var selectedPos = RecyclerView.NO_POSITION
@@ -21,7 +21,7 @@ class SizeSelectorAdapter(
                 notifyItemChanged(selectedPos)
                 selectedPos = adapterPosition
                 notifyItemChanged(selectedPos)
-                viewModel.selectItem(selectedPos)
+                viewModel.selectSize(selectedPos, variation[selectedPos].id)
                 Log.d("ITEM", selectedPos.toString())
             }
         }
@@ -31,7 +31,7 @@ class SizeSelectorAdapter(
         SizeSelectorCardViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    override fun getItemCount(): Int = sizes.size
+    override fun getItemCount(): Int = variation.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.isSelected = selectedPos == holder.bindingAdapterPosition
@@ -41,8 +41,8 @@ class SizeSelectorAdapter(
             holder.binding.root.setCardBackgroundColor(Color.parseColor("#ffffff"))
 
         with(holder.binding) {
-            ruSize.text = sizes[position].sizeRu.toString()
-            intSize.text = sizes[position].sizeInt
+            ruSize.text = variation[position].size.sizeRu.toString()
+            intSize.text = variation[position].size.sizeInt
         }
     }
 

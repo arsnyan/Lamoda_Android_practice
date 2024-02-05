@@ -52,8 +52,7 @@ class ProductScreenFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.product.collect { product ->
                 if (product != null) {
-                    viewModel.currentVariation.collect { variationId ->
-
+                    viewModel.currentVariation.observe(viewLifecycleOwner) { variationId ->
                         binding.productBrand.text = product.brand.name
                         binding.productCategory.text = product.category.name
 
@@ -95,6 +94,7 @@ class ProductScreenFragment : Fragment() {
                             val manager = LinearLayoutManager(context)
                             manager.orientation = RecyclerView.HORIZONTAL
                             layoutManager = manager
+                            onFlingListener = null
                         }
 
                         val snapHelper = PagerSnapHelper()
@@ -102,8 +102,8 @@ class ProductScreenFragment : Fragment() {
 
                         // TODO (Check if the values are right for size selector)
                         val sizesByColor = product.variations.filter {
-                            variations -> variations.color == product.variations[variationId].color
-                        }.map { list -> list.size }
+                            v -> v.color == product.variations.find { it.id == variationId }?.color
+                        }
                         val sizesAdapter = SizeSelectorAdapter(sizesByColor, viewModel)
                         binding.sizeSelector.apply {
                             adapter = sizesAdapter
@@ -113,42 +113,36 @@ class ProductScreenFragment : Fragment() {
                             layoutManager = manager
                         }
 
-                        viewModel.selectedSizeItem.observe(viewLifecycleOwner) { itemId ->
-                            Log.d("ITEM", itemId.toString())
-                            if (itemId != -1) {
-                                val selectedSize = product.variations[variationId].size
-                                binding.sizeDescription.apply {
-                                    val attributesList = mutableListOf<String>()
-                                    with(selectedSize) {
-                                        if (hips != null)
-                                            attributesList += resources.getString(
-                                                R.string.lbl_hips,
-                                                hips
-                                            )
-                                        if (waist != null)
-                                            attributesList += resources.getString(
-                                                R.string.lbl_waist,
-                                                waist
-                                            )
-                                        if (bust != null)
-                                            attributesList += resources.getString(
-                                                R.string.lbl_bust,
-                                                bust
-                                            )
-                                        if (feetLength != null)
-                                            attributesList += resources.getString(
-                                                R.string.lbl_feet,
-                                                feetLength.toString()
-                                            )
-                                    }
-                                    text = attributesList.joinToString(", ")
-                                        .replaceFirstChar { it.uppercase() }
-                                    isVisible = true
-                                    TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
+                        Log.d("ITEM", variationId.toString())
+                        if (variationId != -1) {
+                            val selectedSize = product.variations[variationId].size
+                            binding.sizeDescription.apply {
+                                val attributesList = mutableListOf<String>()
+                                with(selectedSize) {
+                                    attributesList += resources.getString(
+                                        R.string.lbl_hips,
+                                        hips
+                                    )
+                                    attributesList += resources.getString(
+                                        R.string.lbl_waist,
+                                        waist
+                                    )
+                                    attributesList += resources.getString(
+                                        R.string.lbl_bust,
+                                        bust
+                                    )
+                                    attributesList += resources.getString(
+                                        R.string.lbl_feet,
+                                        feetLength.toString()
+                                    )
                                 }
-                            } else {
-                                binding.sizeDescription.isVisible = false
+                                text = attributesList.joinToString(", ")
+                                    .replaceFirstChar { it.uppercase() }
+                                isVisible = true
+                                TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
                             }
+                        } else {
+                            binding.sizeDescription.isVisible = false
                         }
 
                         binding.additionalDesc.text = resources.getString(

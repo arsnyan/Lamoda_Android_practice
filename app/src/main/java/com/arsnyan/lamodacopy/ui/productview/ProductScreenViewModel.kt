@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arsnyan.lamodacopy.data.Color
 import com.arsnyan.lamodacopy.data.Product
 import com.arsnyan.lamodacopy.data.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,10 +34,9 @@ class ProductScreenViewModel @Inject constructor(
     private val _similarByColor = MutableStateFlow<List<Product>?>(listOf())
     val similarByColor: Flow<List<Product>?> = _similarByColor
 
-    private val _currentVariation = MutableStateFlow(0)
-    val currentVariation: StateFlow<Int> = _currentVariation
-
-    val selectedSizeItem = MutableLiveData(-1)
+    val currentVariation = MutableLiveData(2)
+    val currentColor = MutableLiveData(Color.MULTICOLOR)
+    val selectedSizeItem = MutableLiveData(0)
 
     init {
         savedStateHandle.get<Int>("product_id")?.let { id ->
@@ -44,24 +44,24 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
-    fun selectItem(itemId: Int) {
+    fun selectSize(itemId: Int, varId: Int) {
         selectedSizeItem.value = itemId
+        currentVariation.value = varId
     }
 
-    suspend fun selectVariation(variationListId: Int) {
-        _currentVariation.emit(variationListId)
+    fun selectColor(color: Color) {
+        currentColor.value = color
     }
 
     private fun getProduct(id: Int) {
         viewModelScope.launch {
             val result = productRepository.getProduct(id)
             _product.emit(result)
-            currentVariation.collect {
-                getRandomProducts(result, it)
-                getSimilarByBrand(result, it)
-                getSimilarVisually(result, it)
-                getSimilarByColor(result, it)
-            }
+
+            getRandomProducts(result, currentVariation.value!!)
+            getSimilarByBrand(result, currentVariation.value!!)
+            getSimilarVisually(result, currentVariation.value!!)
+            getSimilarByColor(result, currentVariation.value!!)
         }
     }
 
