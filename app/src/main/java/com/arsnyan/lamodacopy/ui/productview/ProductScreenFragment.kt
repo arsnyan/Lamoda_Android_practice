@@ -9,7 +9,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -52,10 +54,11 @@ class ProductScreenFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.product.collect { product ->
                 if (product != null) {
-                    viewModel.currentVariation.observe(viewLifecycleOwner) { variationId ->
-                        binding.productBrand.text = product.brand.name
-                        binding.productCategory.text = product.category.name
+                    binding.productBrand.text = viewModel.product.value?.brand?.name
+                    binding.productCategory.text = viewModel.product.value?.category?.name
 
+                    viewModel.currentVariationId.observe(viewLifecycleOwner) { variationId ->
+                        Log.i("VARIATION_ID", viewModel.currentVariationId.value.toString())
                         product.setDiscountVisibility(
                             requireActivity(), binding.originalPrice, binding.currentPrice,
                             binding.badgeDiscount
@@ -90,7 +93,8 @@ class ProductScreenFragment : Fragment() {
                         }
 
                         binding.productCarousel.apply {
-                            adapter = ImageCarouselMultipleShowAdapter(product.variations[variationId].urls)
+                            adapter =
+                                ImageCarouselMultipleShowAdapter(product.variations[variationId].urls)
                             val manager = LinearLayoutManager(context)
                             manager.orientation = RecyclerView.HORIZONTAL
                             layoutManager = manager
@@ -100,21 +104,27 @@ class ProductScreenFragment : Fragment() {
                         val snapHelper = PagerSnapHelper()
                         snapHelper.attachToRecyclerView(binding.productCarousel)
 
-                        // TODO (Check if the values are right for size selector)
-                        val sizesByColor = product.variations.filter {
-                            v -> v.color == product.variations.find { it.id == variationId }?.color
-                        }
-                        val sizesAdapter = SizeSelectorAdapter(sizesByColor, viewModel)
-                        binding.sizeSelector.apply {
-                            adapter = sizesAdapter
-                            val manager = LinearLayoutManager(context)
-                            manager.orientation = RecyclerView.HORIZONTAL
-                            addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.dimen_grid_margin_step)))
-                            layoutManager = manager
-                        }
+                        binding.additionalDesc.text = resources.getString(
+                            R.string.additional_description,
+                            product.id.toString(),
+                            resources.getString(product.variations[variationId].color.stringId),
+                            resources.getString(product.variations[variationId].pattern.resId)
+                        )
 
-                        Log.d("ITEM", variationId.toString())
-                        if (variationId != -1) {
+                        // TODO(Do I actually need to observe this if everything updates with the main observer?)
+                        viewModel.sizesByColor.observe(viewLifecycleOwner) { sizes ->
+                            // TODO (Check if the values are right for size selector)
+                            println(sizes)
+                            val sizesAdapter = SizeSelectorAdapter(viewModel, sizes)
+                            binding.sizeSelector.apply {
+                                adapter = sizesAdapter
+                                val manager = LinearLayoutManager(context)
+                                manager.orientation = RecyclerView.HORIZONTAL
+                                layoutManager = manager
+                            }
+
+                            Log.d("ITEM", variationId.toString())
+                            //////////
                             val selectedSize = product.variations[variationId].size
                             binding.sizeDescription.apply {
                                 val attributesList = mutableListOf<String>()
@@ -141,16 +151,8 @@ class ProductScreenFragment : Fragment() {
                                 isVisible = true
                                 TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
                             }
-                        } else {
-                            binding.sizeDescription.isVisible = false
+                            //////////
                         }
-
-                        binding.additionalDesc.text = resources.getString(
-                            R.string.additional_description,
-                            product.id.toString(),
-                            resources.getString(product.variations[variationId].color.stringId),
-                            resources.getString(product.variations[variationId].pattern.resId)
-                        )
                     }
                 }
             }
