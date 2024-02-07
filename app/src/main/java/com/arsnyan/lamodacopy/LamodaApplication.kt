@@ -7,6 +7,4 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 
 @HiltAndroidApp
-class LamodaApplication : Application() {
-
-}
+class LamodaApplication : Application()

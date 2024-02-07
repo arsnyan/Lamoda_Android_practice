@@ -1,7 +1,6 @@
 package com.arsnyan.lamodacopy.ui.productview
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +8,16 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
-import com.arsnyan.lamodacopy.data.Size
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
 import com.arsnyan.lamodacopy.ui.recyclerview.ColorSelectorAdapter
 import com.arsnyan.lamodacopy.ui.recyclerview.ImageCarouselMultipleShowAdapter
-import com.arsnyan.lamodacopy.ui.recyclerview.MarginItemDecoration
 import com.arsnyan.lamodacopy.ui.recyclerview.SizeSelectorAdapter
 import com.arsnyan.lamodacopy.utils.ExtensionFunctions.interactive
 import com.arsnyan.lamodacopy.utils.ExtensionFunctions.setDiscountVisibility
@@ -55,22 +50,41 @@ class ProductScreenFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.product.collect { product ->
                 if (product != null) {
-                    binding.productBrand.text = viewModel.product.value?.brand?.name
-                    binding.productCategory.text = viewModel.product.value?.category?.name
+                    val variations = viewModel.variations
 
-                    viewModel.currentVariationId.observe(viewLifecycleOwner) { variationId ->
-                        Log.i("VARIATION_ID", viewModel.currentVariationId.value.toString())
+                    binding.productBrand.text = product.brand.name
+                    binding.productCategory.text = product.category.name
+
+                    val colors = variations.map { it.color }.toSet().toList()
+                    val colorsAdapter = ColorSelectorAdapter(viewModel, colors)
+                    binding.colorOptionsList.apply {
+                        adapter = colorsAdapter
+                        val manager = LinearLayoutManager(context)
+                        manager.orientation = RecyclerView.HORIZONTAL
+                        layoutManager = manager
+                    }
+
+                    val sizesByColor = variations.map { it.size }.toSet().toList()
+                    val sizesAdapter = SizeSelectorAdapter(viewModel, sizesByColor)
+                    binding.sizeSelector.apply {
+                        adapter = sizesAdapter
+                        val manager = LinearLayoutManager(context)
+                        manager.orientation = RecyclerView.HORIZONTAL
+                        layoutManager = manager
+                    }
+
+                    viewModel.currentId.collect() { id ->
                         product.setDiscountVisibility(
                             requireActivity(), binding.originalPrice, binding.currentPrice,
                             binding.badgeDiscount
                         )
 
-                        if (product.variations[variationId].stock > 0) {
+                        if (product.variations[id].stock > 0) {
                             binding.btnAddToCart.apply {
                                 text =
                                     resources.getString(
                                         R.string.lbl_add_to_cart,
-                                        product.variations[variationId].stock
+                                        product.variations[id].stock
                                     )
                                 interactive(true)
                                 setBackgroundColor(
@@ -95,7 +109,7 @@ class ProductScreenFragment : Fragment() {
 
                         binding.productCarousel.apply {
                             adapter =
-                                ImageCarouselMultipleShowAdapter(product.variations[variationId].urls)
+                                ImageCarouselMultipleShowAdapter(product.variations[id].urls)
                             val manager = LinearLayoutManager(context)
                             manager.orientation = RecyclerView.HORIZONTAL
                             layoutManager = manager
@@ -108,62 +122,38 @@ class ProductScreenFragment : Fragment() {
                         binding.additionalDesc.text = resources.getString(
                             R.string.additional_description,
                             product.id.toString(),
-                            resources.getString(product.variations[variationId].color.stringId),
-                            resources.getString(product.variations[variationId].pattern.resId)
+                            resources.getString(product.variations[id].color.stringId),
+                            resources.getString(product.variations[id].pattern.resId)
                         )
+/////////////////////////
 
-                        // TODO(Do I actually need to observe this if everything updates with the main observer?)
-                        viewModel.sizesByColor.observe(viewLifecycleOwner) { sizes ->
-                            // TODO (Check if the values are right for size selector)
-                            println(sizes)
-                            val sizesAdapter = SizeSelectorAdapter(viewModel, sizes)
-                            binding.sizeSelector.apply {
-                                adapter = sizesAdapter
-                                val manager = LinearLayoutManager(context)
-                                manager.orientation = RecyclerView.HORIZONTAL
-                                layoutManager = manager
+                        val selectedSize = variations[id].size
+                        binding.sizeDescription.apply {
+                            val attributesList = mutableListOf<String>()
+                            with(selectedSize) {
+                                attributesList += resources.getString(
+                                    R.string.lbl_hips,
+                                    hips
+                                )
+                                attributesList += resources.getString(
+                                    R.string.lbl_waist,
+                                    waist
+                                )
+                                attributesList += resources.getString(
+                                    R.string.lbl_bust,
+                                    bust
+                                )
+                                attributesList += resources.getString(
+                                    R.string.lbl_feet,
+                                    feetLength.toString()
+                                )
                             }
-
-                            Log.d("ITEM", variationId.toString())
-                            //////////
-                            val selectedSize = product.variations[variationId].size
-                            binding.sizeDescription.apply {
-                                val attributesList = mutableListOf<String>()
-                                with(selectedSize) {
-                                    attributesList += resources.getString(
-                                        R.string.lbl_hips,
-                                        hips
-                                    )
-                                    attributesList += resources.getString(
-                                        R.string.lbl_waist,
-                                        waist
-                                    )
-                                    attributesList += resources.getString(
-                                        R.string.lbl_bust,
-                                        bust
-                                    )
-                                    attributesList += resources.getString(
-                                        R.string.lbl_feet,
-                                        feetLength.toString()
-                                    )
-                                }
-                                text = attributesList.joinToString(", ")
-                                    .replaceFirstChar { it.uppercase() }
-                                isVisible = true
-                                TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
-                            }
-                            //////////
-
+                            text = attributesList.joinToString(", ")
+                                .replaceFirstChar { it.uppercase() }
+                            isVisible = true
+                            TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
                         }
-
-                        val colors = product.variations.map { it.color }.toSet()
-                        val colorsAdapter = ColorSelectorAdapter(viewModel, colors.toList())
-                        binding.colorOptionsList.apply {
-                            adapter = colorsAdapter
-                            val manager = LinearLayoutManager(context)
-                            manager.orientation = RecyclerView.HORIZONTAL
-                            layoutManager = manager
-                        }
+/////////////////////////
                     }
                 }
             }

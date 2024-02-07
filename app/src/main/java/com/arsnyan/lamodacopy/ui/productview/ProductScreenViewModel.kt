@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.arsnyan.lamodacopy.data.Color
 import com.arsnyan.lamodacopy.data.Product
 import com.arsnyan.lamodacopy.data.ProductRepository
+import com.arsnyan.lamodacopy.data.ProductVariation
 import com.arsnyan.lamodacopy.data.Size
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -26,26 +27,13 @@ class ProductScreenViewModel @Inject constructor(
     private val _product = MutableStateFlow<Product?>(null)
     val product: StateFlow<Product?> = _product
 
-    //
-
-    private val _randomProducts = MutableStateFlow<List<Product>?>(listOf())
-    val randomProducts: Flow<List<Product>?> = _randomProducts
-
-    private val _similarByBrand = MutableStateFlow<List<Product>?>(listOf())
-    val similarByBrand: Flow<List<Product>?> = _similarByBrand
-
-    private val _similarVisually = MutableStateFlow<List<Product>?>(listOf())
-    val similarVisually: Flow<List<Product>?> = _similarVisually
-
-    private val _similarByColor = MutableStateFlow<List<Product>?>(listOf())
-    val similarByColor: Flow<List<Product>?> = _similarByColor
+    val variations: List<ProductVariation>
+        get() = product.value!!.variations
 
     //
 
-    val sizesByColor = MutableLiveData<List<Size>>(listOf())
-    val selectedColor = MutableLiveData<Color>(Color.MULTICOLOR)
-    val selectedSize = MutableLiveData<Size?>(null)
-    val currentVariationId = MutableLiveData<Int>(0)
+    private val _currentId = MutableStateFlow(0)
+    val currentId: StateFlow<Int> = _currentId
 
     init {
         savedStateHandle.get<Int>("product_id")?.let { id ->
@@ -53,87 +41,58 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
-    fun selectSize(size: Size) {
+    fun selectVariation(color: Color, size: Size) {
         viewModelScope.launch {
-            selectedSize.value = size
-            selectVariation(selectedColor.value!!, size)
+            val foundVariation = variations.indexOf(variations.find { it.color == color && it.size == size }!!)
+            _currentId.emit(foundVariation)
         }
-    }
-
-    fun selectColor(color: Color) {
-        selectedColor.value = color
-        updateSizeList(color)
-        val currentSize = selectedSize.value
-        val defaultSize = sizesByColor.value!![0]
-        if (!sizesByColor.value!!.contains(currentSize)) {
-            selectedSize.value = defaultSize
-        } else {
-            selectVariation(color, currentSize ?: defaultSize)
-        }
-    }
-
-    private fun updateSizeList(color: Color? = null) {
-        val filteredByColor = product.value?.variations?.filter { v -> v.color == (color ?: selectedColor.value) }
-        sizesByColor.value = filteredByColor?.map { it.size } ?: listOf()
-    }
-
-    private fun selectVariation(color: Color, size: Size) {
-        Log.i("Current variation", currentVariationId.value.toString())
-        val foundVariation = product.value?.variations?.find { it.color == color && it.size == size }
-        Log.i("Found variation", foundVariation?.id.toString())
-        currentVariationId.value = (foundVariation?.id?.minus(1)) ?: 0
     }
 
     private fun getProduct(id: Int) {
         viewModelScope.launch {
             val result = productRepository.getProduct(id)
             _product.emit(result)
-            selectedSize.value = result.variations[0].size
-            selectedColor.value = result.variations[0].color
-            updateSizeList()
-
-            //currentVariationId.observe(lifecycleOwner) {
-                getRandomProducts(result, currentVariationId.value!!)
-                getSimilarByBrand(result, currentVariationId.value!!)
-                getSimilarVisually(result, currentVariationId.value!!)
-                getSimilarByColor(result, currentVariationId.value!!)
-            //}
         }
     }
 
-    private suspend fun getRandomProducts(product: Product, varId: Int) {
-        val result = productRepository.getProducts(
-            filters = mapOf("category" to product.category.id),
-            filtersVariations = mapOf("size_id" to product.variations[varId].size.id)
-        ).shuffled()
-        _randomProducts.emit(result)
-        //Log.i("LAMODA_RANDOM", result.toString())
-    }
-
-    private suspend fun getSimilarByBrand(product: Product, varId: Int) {
-        val result = productRepository.getProducts(
-            filters = mapOf("brand" to product.brand.id, "category" to product.category.id),
-            filtersVariations = mapOf("size_id" to product.variations[varId].size.id)
-        ).shuffled()
-        _similarByBrand.emit(result)
-        //Log.i("LAMODA_BYBRAND", result.toString())
-    }
-
-    private suspend fun getSimilarVisually(product: Product, varId: Int) {
-        val result = productRepository.getProducts(
-            filters = mapOf("category" to product.category.id),
-            filtersVariations = mapOf("pattern" to product.variations[varId].pattern, "size_id" to product.variations[varId].size.id)
-        ).shuffled()
-        _similarVisually.emit(result)
-        //Log.i("LAMODA_VISUALLY", result.toString())
-    }
-
-    private suspend fun getSimilarByColor(product: Product, varId: Int) {
-        val result = productRepository.getProducts(
-            filters = mapOf("category" to product.category.id),
-            filtersVariations = mapOf("color" to product.variations[varId].color, "size_id" to product.variations[varId].size.id)
-        ).shuffled()
-        _similarByColor.emit(result)
-        //Log.i("LAMODA_BYCOLOR", result.toString())
-    }
+    /**
+     * Starting from now it's really not efficient to get 4 instances of products, even with different queries
+     * This means that I might request 4 product sets at the same time, which increases number of queries, which
+     * isn't efficient. I think.
+     */
+//    private suspend fun getRandomProducts(product: Product, varId: Int) {
+//        val result = productRepository.getProducts(
+//            filters = mapOf("category" to product.category.id),
+//            filtersVariations = mapOf("size_id" to product.variations[varId].size.id)
+//        ).shuffled()
+//        _randomProducts.emit(result)
+//        //Log.i("LAMODA_RANDOM", result.toString())
+//    }
+//
+//    private suspend fun getSimilarByBrand(product: Product, varId: Int) {
+//        val result = productRepository.getProducts(
+//            filters = mapOf("brand" to product.brand.id, "category" to product.category.id),
+//            filtersVariations = mapOf("size_id" to product.variations[varId].size.id)
+//        ).shuffled()
+//        _similarByBrand.emit(result)
+//        //Log.i("LAMODA_BYBRAND", result.toString())
+//    }
+//
+//    private suspend fun getSimilarVisually(product: Product, varId: Int) {
+//        val result = productRepository.getProducts(
+//            filters = mapOf("category" to product.category.id),
+//            filtersVariations = mapOf("pattern" to product.variations[varId].pattern, "size_id" to product.variations[varId].size.id)
+//        ).shuffled()
+//        _similarVisually.emit(result)
+//        //Log.i("LAMODA_VISUALLY", result.toString())
+//    }
+//
+//    private suspend fun getSimilarByColor(product: Product, varId: Int) {
+//        val result = productRepository.getProducts(
+//            filters = mapOf("category" to product.category.id),
+//            filtersVariations = mapOf("color" to product.variations[varId].color, "size_id" to product.variations[varId].size.id)
+//        ).shuffled()
+//        _similarByColor.emit(result)
+//        //Log.i("LAMODA_BYCOLOR", result.toString())
+//    }
 }

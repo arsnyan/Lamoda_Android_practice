@@ -44,7 +44,7 @@
     <string name="size_lbl_rus" translatable="false">RUS</string>
     <string name="size_lbl_int" translatable="false">INT</string>
     <string name="lbl_size_table">Size table</string>
-    <string name="lbl_other_colors">Other colors</string>
+    <string name="lbl_items_colors">Available colors</string>
     <string name="lbl_mark_favourite">Mark favourite</string>
     <string name="lbl_share">Share</string>
     <string name="lbl_about_product">About product</string>

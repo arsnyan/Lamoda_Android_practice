@@ -12,7 +12,7 @@ import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileSectionCardView constructor(
+class ProfileSectionCardView(
     context: Context,
     attrs: AttributeSet
 ): MaterialCardView(context, attrs) {
