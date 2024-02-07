@@ -61,25 +61,23 @@ class ProductScreenViewModel @Inject constructor(
     }
 
     fun selectColor(color: Color) {
-        viewModelScope.launch {
-            selectedColor.value = color
-            updateSizeList(color)
-            val currentSize = selectedSize.value
-            val defaultSize = sizesByColor.value!![0]
-            if (!sizesByColor.value!!.contains(currentSize)) {
-                selectedSize.value = defaultSize
-            } else {
-                selectVariation(color, currentSize ?: defaultSize)
-            }
+        selectedColor.value = color
+        updateSizeList(color)
+        val currentSize = selectedSize.value
+        val defaultSize = sizesByColor.value!![0]
+        if (!sizesByColor.value!!.contains(currentSize)) {
+            selectedSize.value = defaultSize
+        } else {
+            selectVariation(color, currentSize ?: defaultSize)
         }
     }
 
-    private suspend fun updateSizeList(color: Color? = null) {
+    private fun updateSizeList(color: Color? = null) {
         val filteredByColor = product.value?.variations?.filter { v -> v.color == (color ?: selectedColor.value) }
         sizesByColor.value = filteredByColor?.map { it.size } ?: listOf()
     }
 
-    private suspend fun selectVariation(color: Color, size: Size) {
+    private fun selectVariation(color: Color, size: Size) {
         Log.i("Current variation", currentVariationId.value.toString())
         val foundVariation = product.value?.variations?.find { it.color == color && it.size == size }
         Log.i("Found variation", foundVariation?.id.toString())

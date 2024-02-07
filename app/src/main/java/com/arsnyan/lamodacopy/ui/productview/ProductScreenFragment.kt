@@ -20,6 +20,7 @@ import androidx.transition.TransitionManager
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.data.Size
 import com.arsnyan.lamodacopy.databinding.FragmentProductScreenBinding
+import com.arsnyan.lamodacopy.ui.recyclerview.ColorSelectorAdapter
 import com.arsnyan.lamodacopy.ui.recyclerview.ImageCarouselMultipleShowAdapter
 import com.arsnyan.lamodacopy.ui.recyclerview.MarginItemDecoration
 import com.arsnyan.lamodacopy.ui.recyclerview.SizeSelectorAdapter
@@ -152,6 +153,16 @@ class ProductScreenFragment : Fragment() {
                                 TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
                             }
                             //////////
+
+                        }
+
+                        val colors = product.variations.map { it.color }.toSet()
+                        val colorsAdapter = ColorSelectorAdapter(viewModel, colors.toList())
+                        binding.colorOptionsList.apply {
+                            adapter = colorsAdapter
+                            val manager = LinearLayoutManager(context)
+                            manager.orientation = RecyclerView.HORIZONTAL
+                            layoutManager = manager
                         }
                     }
                 }
