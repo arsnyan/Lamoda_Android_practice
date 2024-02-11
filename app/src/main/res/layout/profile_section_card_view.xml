@@ -21,7 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/outline_home_24"
-                app:tint="?attr/colorOnPrimary"/>
+                app:tint="?attr/colorOnPrimary"
+                android:importantForAccessibility="no"/>
 
             <View
                 android:layout_width="0dp"

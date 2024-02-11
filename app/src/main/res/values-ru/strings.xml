@@ -104,4 +104,10 @@
     <string name="lbl_phone_number_or_e_mail">Номер телефона или e-mail</string>
     <string name="txt_ad_offerings_sing_up">Пользуйтесь персональными скидками и получайте подарки от наших партнёров!</string>
     <string name="lbl_sign_in_socials">Войти через <u>соцсети</u></string>
+    <string name="filter">Фильтр</string>
+    <string name="sort_by_popularity">По популярности</string>
+    <string name="women">Женщинам</string>
+    <string name="men">Мужчинам</string>
+    <string name="left_items_counter">%1$d items</string>
+    <string name="enter_profile">Enter profile</string>
 </resources>

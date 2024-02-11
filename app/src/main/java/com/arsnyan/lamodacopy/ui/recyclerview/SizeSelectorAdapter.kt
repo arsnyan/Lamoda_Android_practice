@@ -1,11 +1,9 @@
 package com.arsnyan.lamodacopy.ui.recyclerview
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arsnyan.lamodacopy.data.ProductVariation
 import com.arsnyan.lamodacopy.data.Size
 import com.arsnyan.lamodacopy.databinding.SizeSelectorCardViewBinding
 import com.arsnyan.lamodacopy.ui.productview.ProductScreenViewModel

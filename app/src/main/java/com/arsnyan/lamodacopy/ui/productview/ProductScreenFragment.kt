@@ -73,9 +73,11 @@ class ProductScreenFragment : Fragment() {
                         layoutManager = manager
                     }
 
-                    viewModel.currentId.collect() { id ->
+                    binding.productDescription.text = product.desc
+
+                    viewModel.currentId.collect { id ->
                         product.setDiscountVisibility(
-                            requireActivity(), binding.originalPrice, binding.currentPrice,
+                            requireActivity(), id, binding.originalPrice, binding.currentPrice,
                             binding.badgeDiscount
                         )
 
@@ -125,7 +127,6 @@ class ProductScreenFragment : Fragment() {
                             resources.getString(product.variations[id].color.stringId),
                             resources.getString(product.variations[id].pattern.resId)
                         )
-/////////////////////////
 
                         val selectedSize = variations[id].size
                         binding.sizeDescription.apply {
@@ -153,7 +154,6 @@ class ProductScreenFragment : Fragment() {
                             isVisible = true
                             TransitionManager.beginDelayedTransition(binding.constraintLayout as ViewGroup)
                         }
-/////////////////////////
                     }
                 }
             }

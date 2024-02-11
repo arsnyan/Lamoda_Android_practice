@@ -1,12 +1,11 @@
 package com.arsnyan.lamodacopy.ui.home
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arsnyan.lamodacopy.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.arsnyan.lamodacopy.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 

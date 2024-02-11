@@ -6,8 +6,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
-import kotlin.random.Random
-import kotlin.random.nextUInt
 
 @Serializable
 data class ProductDto(
@@ -23,8 +21,6 @@ data class Product(
 interface ProductRepository {
     suspend fun getProducts(filters: Map<String, Any>? = null, filtersVariations: Map<String, Any>? = null): List<Product>
     suspend fun getProduct(id: Int): Product
-
-    suspend fun getRandomProducts(filters: Map<String, Any>? = null, filtersVariations: Map<String, Any>? = null): List<Product>
 }
 
 class ProductRepositoryImpl @Inject constructor(
@@ -35,12 +31,7 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
     override suspend fun getProducts(filters: Map<String, Any>?, filtersVariations: Map<String, Any>?): List<Product> {
         return withContext(Dispatchers.IO) {
-            val dtos: List<ProductDto> = postgrest["products"].select {
-                limit(10)
-
-            }.decodeList()
-
-            dtos.map { dto ->
+            postgrest["products"].select { limit(10); filters?.forEach { (k, v) -> eq(k, v) } }.decodeList<ProductDto>().map { dto ->
                 Product(
                     id = dto.id,
                     brand = brandRepository.getBrand(dto.brand),
@@ -65,26 +56,6 @@ class ProductRepositoryImpl @Inject constructor(
                 desc = dto.description,
                 variations = productVariationRepository.getVariationsByProduct(dto.id)
             )
-        }
-    }
-
-    override suspend fun getRandomProducts(filters: Map<String, Any>?, filtersVariations: Map<String, Any>?): List<Product> {
-        return withContext(Dispatchers.IO) {
-            val randomNumber = Random.nextUInt(postgrest["products"].select().count()!!.toUInt())
-            val dtos: List<ProductDto> = postgrest["products"].select {
-                limit(30)
-                gt("id", randomNumber)
-            }.decodeList()
-
-            dtos.map { dto ->
-                Product(
-                    id = dto.id,
-                    brand = brandRepository.getBrand(dto.brand),
-                    category = categoryRepository.getCategory(dto.category),
-                    desc = dto.description,
-                    variations = productVariationRepository.getVariationsByProduct(dto.id, filtersVariations)
-                )
-            }
         }
     }
 }

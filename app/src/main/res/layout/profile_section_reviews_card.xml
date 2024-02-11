@@ -62,7 +62,8 @@
             android:layout_marginStart="@dimen/dimen_default_margin_step"
             app:layout_constraintTop_toTopOf="@id/txt_reviews_catchphrase"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/ratingBar_reviews_card"/>
+            app:layout_constraintBottom_toBottomOf="@id/ratingBar_reviews_card"
+            android:importantForAccessibility="no" />
 
         <TextView
             android:id="@+id/txt_reviews_catchphrase"

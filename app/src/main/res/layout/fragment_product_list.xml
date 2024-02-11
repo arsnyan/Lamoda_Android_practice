@@ -18,30 +18,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?actionBarSize"
-                android:orientation="vertical"
                 app:layout_collapseMode="pin">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/dimen_default_margin_step">
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Subcategory 1" />
-                </com.google.android.material.chip.ChipGroup>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <com.google.android.material.button.MaterialButton
                         style="@style/Widget.Button.LamodaCopy.IconButton.TopAlignment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Filter"
+                        android:text="@string/filter"
                         android:textAlignment="viewStart"
                         app:icon="@drawable/outline_filter_alt_24"
                         app:iconGravity="start" />
@@ -51,11 +34,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="By popularity"
+                        android:text="@string/sort_by_popularity"
                         android:textAlignment="viewStart"
                         app:icon="@drawable/baseline_sort_by_alpha_24"
                         app:iconGravity="start" />
-                </LinearLayout>
             </LinearLayout>
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
@@ -69,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_back"
                         style="@style/Widget.Button.LamodaCopy.IconButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,13 +62,15 @@
                         android:orientation="vertical"
                         android:layout_gravity="center_vertical">
                         <TextView
+                            android:id="@+id/category"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Category"/>
+                            tools:text="Category"/>
                         <TextView
+                            android:id="@+id/left_items"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Items left"/>
+                            tools:text="Items left"/>
                     </LinearLayout>
                     <View
                         android:layout_width="0dp"

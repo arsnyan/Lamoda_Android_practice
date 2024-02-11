@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.arsnyan.lamodacopy.databinding.ImageCarouselMultipleShowBinding
-import com.arsnyan.lamodacopy.databinding.ImageSliderPagerBinding
 
 class ImageCarouselMultipleShowAdapter(private val urls: List<String>)
     : RecyclerView.Adapter<ImageCarouselMultipleShowAdapter.ViewHolder>() {

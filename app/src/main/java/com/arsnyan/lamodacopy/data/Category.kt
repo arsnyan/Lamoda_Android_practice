@@ -2,7 +2,6 @@ package com.arsnyan.lamodacopy.data
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,17 +18,22 @@ data class CategoryDto(@SerialName("id") val id: Int, @SerialName("name") val na
 data class Category(val id: Int, val name: String, val gender: String)
 
 interface CategoryRepository {
-    suspend fun getCategories(): List<Category>
+    suspend fun getCategories(filters: Map<String, Any>? = null): List<Category>
     suspend fun getCategory(id: Int): Category
 }
 
 class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgrest, @ApplicationContext private val context: Context) : CategoryRepository {
-    override suspend fun getCategories(): List<Category> {
+    override suspend fun getCategories(filters: Map<String, Any>?): List<Category> {
         return withContext(Dispatchers.IO) {
-            if (context.resources.configuration.locales[0].language == "ru")
-                postgrest["categories_ru"].select().decodeList()
-            else
-                postgrest["categories"].select().decodeList()
+            val dtos: List<CategoryDto> = if (context.resources.configuration.locales[0].language == "ru") {
+                postgrest["categories_ru"].select { filters?.forEach { (k, v) -> eq(k, v) } }.decodeList()
+            } else {
+                postgrest["categories"].select { filters?.forEach { (k, v) -> eq(k, v) } }.decodeList()
+            }
+
+            dtos.map {
+                Category(it.id, it.name, it.gender)
+            }
         }
     }
 

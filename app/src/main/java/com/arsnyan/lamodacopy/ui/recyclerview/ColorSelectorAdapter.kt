@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.data.Color
 import com.arsnyan.lamodacopy.databinding.ColorSelectorBinding
 import com.arsnyan.lamodacopy.ui.productview.ProductScreenViewModel
@@ -42,6 +43,6 @@ class ColorSelectorAdapter(private val viewModel: ProductScreenViewModel, privat
         val variation = viewModel.variations.filter { it.color == colors[position] }
         holder.binding.preview.load(variation[0].urls[0])
         holder.binding.colorTxt.text = holder.itemView.context.getString(colors[position].stringId)
-        holder.binding.price.text = variation[0].currentPrice.toString() + "₽"
+        holder.binding.price.text = holder.itemView.resources.getString(R.string.lbl_formatted_price, variation[0].currentPrice)
     }
 }

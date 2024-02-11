@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginHorizontal="@dimen/dimen_default_margin_half_step"
     android:focusable="true"
-    android:clickable="true"
-    android:background="@color/selectable_item">
+    android:clickable="true">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

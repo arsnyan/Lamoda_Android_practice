@@ -106,4 +106,10 @@
     <string name="txt_ad_offerings_sing_up">Use personal discounts and get gifts from our partners!</string>
     <string name="lbl_sign_in_socials">Sign in using socials</string>
     <string name="lbl_password">Password</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by_popularity">By popularity</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="left_items_counter">%1$d товаров</string>
+    <string name="enter_profile">Enter profile</string>
 </resources>

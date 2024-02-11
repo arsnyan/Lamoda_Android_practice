@@ -27,7 +27,8 @@
                 android:layout_marginHorizontal="@dimen/dimen_default_margin_step"
                 android:layout_marginTop="2dp"
                 android:src="@drawable/lamoda_club"
-                app:tint="?attr/colorOnPrimary" />
+                app:tint="?attr/colorOnPrimary"
+                android:importantForAccessibility="no" />
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 

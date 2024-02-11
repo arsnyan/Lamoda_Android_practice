@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageView
-import android.widget.TextView
 import com.arsnyan.lamodacopy.R
 import com.arsnyan.lamodacopy.databinding.ProfileSectionCardViewBinding
 import com.google.android.material.card.MaterialCardView
