@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.arsnyan.lamodacopy.R
+import com.arsnyan.lamodacopy.SharedViewModel
 import com.arsnyan.lamodacopy.data.Category
 import com.arsnyan.lamodacopy.databinding.FragmentCatalogBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -27,6 +29,7 @@ class CatalogFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CatalogViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +43,8 @@ class CatalogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.categories.collect {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                sharedViewModel.categories.collect {
                     val tabTitles = arrayOf(R.string.women, R.string.men)
                     binding.pager.adapter = CatalogPagerAdapter(this@CatalogFragment, it)
                     TabLayoutMediator(binding.tabs, binding.pager) { tab, position ->
@@ -54,6 +57,7 @@ class CatalogFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.pager.adapter = null
         _binding = null
     }
 
@@ -61,11 +65,10 @@ class CatalogFragment : Fragment() {
         override fun getItemCount(): Int = 2
 
         override fun createFragment(position: Int): Fragment {
-            return if (position == 0) {
-                CatalogPagerFragment(categories.filter { it.gender == "f" })
-            } else {
-                CatalogPagerFragment(categories.filter { it.gender == "m" })
-            }
+            return if (position == 0)
+                FemaleCatalogPagerFragment()
+            else
+                MaleCatalogPagerFragment()
         }
     }
 }

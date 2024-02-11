@@ -18,17 +18,4 @@ class CatalogViewModel @Inject constructor(
 ) : ViewModel() {
     private val _categories = MutableStateFlow(listOf<Category>())
     val categories: StateFlow<List<Category>> = _categories
-
-    init {
-        getCategories()
-    }
-
-    private fun getCategories() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val data = categoryRepository.getCategories()
-                _categories.emit(data)
-            }
-        }
-    }
 }
