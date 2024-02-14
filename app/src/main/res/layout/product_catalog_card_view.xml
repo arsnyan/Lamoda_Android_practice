@@ -6,12 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:focusable="true"
-    android:layout_margin="@dimen/dimen_default_margin_half_step"
-    app:cardCornerRadius="@dimen/dimen_default_margin_half_step">
+    app:cardElevation="0dp"
+    app:cardCornerRadius="0dp"
+    android:layout_margin="@dimen/dimen_grid_margin_half_step">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?selectableItemBackground">
+        android:layout_height="match_parent">
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/image_carousel"
             android:layout_width="match_parent"

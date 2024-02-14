@@ -110,6 +110,6 @@
     <string name="sort_by_popularity">By popularity</string>
     <string name="women">Women</string>
     <string name="men">Men</string>
-    <string name="left_items_counter">%1$d товаров</string>
+    <string name="left_items_counter">%1$d items</string>
     <string name="enter_profile">Enter profile</string>
 </resources>

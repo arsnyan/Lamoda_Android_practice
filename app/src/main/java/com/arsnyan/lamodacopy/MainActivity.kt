@@ -33,23 +33,22 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        //lifecycleScope.launch {
-            //viewModel.user.collect { user ->
-                //navView.menu.clear()
-                //navView.inflateMenu(if (user == null) R.menu.bottom_nav_login_menu else R.menu.bottom_nav_menu)
-        navView.inflateMenu(R.menu.bottom_nav_menu)
+        lifecycleScope.launch {
+            viewModel.user.collect { user ->
+                navView.menu.clear()
+                navView.inflateMenu(if (user == null) R.menu.bottom_nav_login_menu else R.menu.bottom_nav_menu)
 
                 // Passing each menu ID as a set of Ids because each
                 // menu should be considered as top level destinations.
                 val appBarConfiguration = AppBarConfiguration(
                     setOf(
-                        R.id.navigation_home, R.id.navigation_catalog, R.id.navigation_cart, R.id.navigation_favourites, R.id.navigation_profile//if (user == null) R.id.navigation_login else R.id.navigation_profile
+                        R.id.navigation_home, R.id.navigation_catalog, R.id.navigation_cart, R.id.navigation_favourites, if (user == null) R.id.navigation_login else R.id.navigation_profile
                     )
                 )
                 setupActionBarWithNavController(navController, appBarConfiguration)
                 navView.setupWithNavController(navController)
-            //}
-        //}
+            }
+        }
         supportActionBar?.hide()
     }
 
