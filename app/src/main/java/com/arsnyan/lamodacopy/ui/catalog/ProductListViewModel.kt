@@ -11,6 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,8 +22,8 @@ class ProductListViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _productList = MutableStateFlow<List<Product>?>(listOf())
-    val productList: Flow<List<Product>?> = _productList
+    private val _productList = MutableStateFlow<List<Product>?>(emptyList())
+    val productList: StateFlow<List<Product>?> = _productList.asStateFlow()
 
     var category: Category? = null
 
@@ -34,7 +36,7 @@ class ProductListViewModel @Inject constructor(
 
     private fun getProducts(filters: Map<String, Any>) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            val products = productRepository.getProducts(filters = filters)
+            val products = productRepository.getProducts(productFilters = filters)
             if (products.isNotEmpty())
                 category = products[0].category
             _productList.emit(products)

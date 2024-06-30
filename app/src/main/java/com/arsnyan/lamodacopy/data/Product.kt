@@ -14,12 +14,12 @@ data class ProductDto(
 )
 
 data class Product(
-    val id: Int, val brand: Brand, val category: Category, var desc: String?,
+    val id: Int, val brand: Brand, val category: Category, var description: String?,
     var variations: List<ProductVariation>
 )
 
 interface ProductRepository {
-    suspend fun getProducts(filters: Map<String, Any>? = null, filtersVariations: Map<String, Any>? = null): List<Product>
+    suspend fun getProducts(productFilters: Map<String, Any>? = null, variationFilters: Map<String, Any>? = null): List<Product>
     suspend fun getProduct(id: Int): Product
 }
 
@@ -29,15 +29,15 @@ class ProductRepositoryImpl @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val productVariationRepository: ProductVariationRepository
 ) : ProductRepository {
-    override suspend fun getProducts(filters: Map<String, Any>?, filtersVariations: Map<String, Any>?): List<Product> {
+    override suspend fun getProducts(productFilters: Map<String, Any>?, variationFilters: Map<String, Any>?): List<Product> {
         return withContext(Dispatchers.IO) {
-            postgrest["products"].select { limit(10); filters?.forEach { (k, v) -> eq(k, v) } }.decodeList<ProductDto>().map { dto ->
+            postgrest["products"].select { limit(10); productFilters?.forEach { (k, v) -> eq(k, v) } }.decodeList<ProductDto>().map { dto ->
                 Product(
                     id = dto.id,
                     brand = brandRepository.getBrand(dto.brand),
                     category = categoryRepository.getCategory(dto.category),
-                    desc = dto.description,
-                    variations = productVariationRepository.getVariationsByProduct(dto.id, filtersVariations)
+                    description = dto.description,
+                    variations = productVariationRepository.getVariationsByProduct(dto.id, variationFilters)
                 )
             }
         }
@@ -53,7 +53,7 @@ class ProductRepositoryImpl @Inject constructor(
                 id = dto.id,
                 brand = brandRepository.getBrand(dto.brand),
                 category = categoryRepository.getCategory(dto.category),
-                desc = dto.description,
+                description = dto.description,
                 variations = productVariationRepository.getVariationsByProduct(dto.id)
             )
         }

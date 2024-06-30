@@ -73,7 +73,7 @@ class ProductScreenFragment : Fragment() {
                         layoutManager = manager
                     }
 
-                    binding.productDescription.text = product.desc
+                    binding.productDescription.text = product.description
 
                     viewModel.currentId.collect { id ->
                         product.setDiscountVisibility(
