@@ -43,7 +43,9 @@ class UserRepositoryImpl @Inject constructor(private val postgrest: Postgrest) :
 
     override suspend fun getBrand(id: Int): Brand {
         return withContext(Dispatchers.IO) {
-            val dto: BrandDto = postgrest["brands"].select { eq("id", id) }.decodeSingle()
+            val dto: BrandDto = postgrest["brands"].select {
+                filter { eq("id", id) }
+            }.decodeSingle()
             Brand(id = dto.id, name = dto.name, logo = dto.logo)
         }
     }

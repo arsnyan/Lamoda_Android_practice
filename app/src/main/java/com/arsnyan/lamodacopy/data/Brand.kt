@@ -28,19 +28,19 @@ interface BrandRepository {
 class BrandRepositoryImpl @Inject constructor(private val postgrest: Postgrest) : BrandRepository {
     override suspend fun getBrands(): List<Brand> {
         return withContext(Dispatchers.IO) {
-            val dtos: List<BrandDto> = postgrest["brands"].select().decodeList()
-            val finalList = mutableListOf<Brand>()
-            dtos.forEach { dto ->
-                finalList += Brand(id = dto.id, name = dto.name, logo = dto.logo)
+            postgrest["brands"].select().decodeList<BrandDto>().map { dto ->
+                dto.asDomainModel()
             }
-            finalList
         }
     }
 
     override suspend fun getBrand(id: Int): Brand {
         return withContext(Dispatchers.IO) {
-            val dto: BrandDto = postgrest["brands"].select { eq("id", id) }.decodeSingle()
-            Brand(id = dto.id, name = dto.name, logo = dto.logo)
+            postgrest["brands"].select {
+                filter {
+                    eq("id", id)
+                }
+            }.decodeSingle<BrandDto>().asDomainModel()
         }
     }
 }

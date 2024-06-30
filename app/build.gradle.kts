@@ -85,8 +85,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-paging:$roomVersion")
 
-    implementation("io.github.jan-tennert.supabase:postgrest-kt:1.4.0")
-    implementation("io.ktor:ktor-client-android:2.3.5")
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.5.1")
+    implementation("io.ktor:ktor-client-okhttp:2.3.11")
 
     implementation("androidx.paging:paging-runtime-ktx:3.3.0")
 

@@ -58,7 +58,7 @@ class FavouritesFragment : Fragment() {
                 viewModel.user.collect { user ->
                     if (user != null) {
                         with(binding) {
-                            productList.adapter = ProductAdapter(listOf(), view.context, object : OnItemClickListener {
+                            productList.adapter = ProductAdapter(view.context, object : OnItemClickListener {
                                 override fun onItemClick(position: Int) {
                                     val action = ProductListFragmentDirections
                                         .actionNavigationProductListToNavigationProductScreen(position)

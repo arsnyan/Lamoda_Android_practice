@@ -26,8 +26,16 @@ class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgres
     override suspend fun getCategories(filters: Map<String, Any>?): List<Category> {
         return withContext(Dispatchers.IO) {
             val dtos: List<CategoryDto> = when (context.resources.configuration.locales[0].language) {
-                "ru" -> postgrest["categories_ru"].select { filters?.forEach { (k, v) -> eq(k, v) } }.decodeList()
-                else -> postgrest["categories"].select { filters?.forEach { (k, v) -> eq(k, v) } }.decodeList()
+                "ru" -> postgrest["categories_ru"].select {
+                    filter {
+                        filters?.forEach { (k, v) -> eq(k, v) }
+                    }
+                }.decodeList()
+                else -> postgrest["categories"].select {
+                    filter{
+                        filters?.forEach { (k, v) -> eq(k, v) }
+                    }
+                }.decodeList()
             }
 
             dtos.map {
@@ -39,8 +47,16 @@ class CategoryRepositoryImpl @Inject constructor(private val postgrest: Postgres
     override suspend fun getCategory(id: Int): Category {
         return withContext(Dispatchers.IO) {
             val dto: CategoryDto = when (context.resources.configuration.locales[0].language) {
-                "ru" -> postgrest["categories_ru"].select { eq("id", id) }.decodeSingle()
-                else -> postgrest["categories"].select { eq("id", id) }.decodeSingle()
+                "ru" -> postgrest["categories_ru"].select {
+                    filter{
+                        eq("id", id)
+                    }
+                }.decodeSingle()
+                else -> postgrest["categories"].select {
+                    filter{
+                        eq("id", id)
+                    }
+                }.decodeSingle()
             }
             dto.asDomainModel()
         }

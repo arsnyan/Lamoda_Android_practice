@@ -36,7 +36,9 @@ class ProductVariationRepositoryImpl @Inject constructor(
 ) : ProductVariationRepository {
     override suspend fun getVariation(id: Int): ProductVariation {
         return withContext(Dispatchers.IO) {
-            val dto: ProductVariationDto = postgrest["product_variations"].select { eq("id", id) }.decodeSingle()
+            val dto: ProductVariationDto = postgrest["product_variations"].select {
+                filter { eq("id", id) }
+            }.decodeSingle()
             ProductVariation(
                 id = dto.id,
                 productId = dto.productId,
@@ -57,9 +59,11 @@ class ProductVariationRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             println("GET VARIATION BY PRODUCT")
             val dtos: List<ProductVariationDto> = postgrest["product_variations"].select {
-                eq("product_id", productId)
-                filters?.forEach { (key, value) ->
-                    eq(key, value)
+                filter {
+                    eq("product_id", productId)
+                    filters?.forEach { (key, value) ->
+                        eq(key, value)
+                    }
                 }
             }.decodeList()
             dtos.map { dto ->

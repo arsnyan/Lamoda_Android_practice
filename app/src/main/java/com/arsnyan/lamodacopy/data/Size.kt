@@ -51,7 +51,11 @@ class SizeRepositoryImpl @Inject constructor(private val postgrest: Postgrest) :
 
     override suspend fun getSize(id: Int): Size {
         return withContext(Dispatchers.IO) {
-            val dto: SizeDto = postgrest["sizes"].select { eq("id", id) }.decodeSingle()
+            val dto: SizeDto = postgrest["sizes"].select {
+                filter {
+                    eq("id", id)
+                }
+            }.decodeSingle()
             dto.asDomainModel()
         }
     }
@@ -60,7 +64,11 @@ class SizeRepositoryImpl @Inject constructor(private val postgrest: Postgrest) :
         val list = mutableListOf<Size>()
         return withContext(Dispatchers.IO) {
             for (id in ids) {
-                list.add(postgrest["sizes"].select { eq("id", id) }.decodeSingle<SizeDto>().asDomainModel())
+                list.add(postgrest["sizes"].select {
+                    filter {
+                        eq("id", id)
+                    }
+                }.decodeSingle<SizeDto>().asDomainModel())
             }
             list
         }

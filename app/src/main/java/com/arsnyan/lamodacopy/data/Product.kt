@@ -19,7 +19,12 @@ data class Product(
 )
 
 interface ProductRepository {
-    suspend fun getProducts(productFilters: Map<String, Any>? = null, variationFilters: Map<String, Any>? = null): List<Product>
+    suspend fun getProducts(
+        productFilters: Map<String, Any>? = null,
+        variationFilters: Map<String, Any>? = null,
+        page: Int,
+        pageSize: Int
+    ): List<Product>
     suspend fun getProduct(id: Int): Product
 }
 
@@ -29,9 +34,19 @@ class ProductRepositoryImpl @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val productVariationRepository: ProductVariationRepository
 ) : ProductRepository {
-    override suspend fun getProducts(productFilters: Map<String, Any>?, variationFilters: Map<String, Any>?): List<Product> {
+    override suspend fun getProducts(
+        productFilters: Map<String, Any>?,
+        variationFilters: Map<String, Any>?,
+        page: Int, pageSize: Int
+    ): List<Product> {
         return withContext(Dispatchers.IO) {
-            postgrest["products"].select { limit(10); productFilters?.forEach { (k, v) -> eq(k, v) } }.decodeList<ProductDto>().map { dto ->
+            val offset = (page - 1) * pageSize
+            postgrest["products"].select {
+                range(from = offset.toLong(), to = (page + pageSize).toLong())
+                filter {
+                    productFilters?.forEach { (k, v) -> eq(k, v) }
+                }
+            }.decodeList<ProductDto>().map { dto ->
                 Product(
                     id = dto.id,
                     brand = brandRepository.getBrand(dto.brand),
@@ -46,7 +61,9 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun getProduct(id: Int): Product {
         return withContext(Dispatchers.IO) {
             val dto: ProductDto = postgrest["products"].select {
-                eq("id", id)
+                filter {
+                    eq("id", id)
+                }
             }.decodeSingle()
 
             Product(
